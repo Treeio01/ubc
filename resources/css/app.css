@@ -1,5 +1,100 @@
 @import 'tailwindcss';
 
+/* Frutiger LT Std */
+@font-face {
+    font-family: 'Frutiger LT Std';
+    src: url('/assets/fonts/Frutiger LT Std 45 Light/Frutiger LT Std 45 Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Frutiger LT Std';
+    src: url('/assets/fonts/Frutiger LT Std 46 Light Italic/Frutiger LT Std 46 Light Italic.otf') format('opentype');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Frutiger LT Std';
+    src: url('/assets/fonts/Frutiger LT Std 55 Roman/Frutiger LT Std 55 Roman.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Frutiger LT Std';
+    src: url('/assets/fonts/Frutiger LT Std 56 Italic/Frutiger LT Std 56 Italic.otf') format('opentype');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Frutiger LT Std';
+    src: url('/assets/fonts/Frutiger LT Std 65 Bold/Frutiger LT Std 65 Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Frutiger LT Std';
+    src: url('/assets/fonts/Frutiger LT Std 66 Bold Italic/Frutiger LT Std 66 Bold Italic.otf') format('opentype');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Frutiger LT Std';
+    src: url('/assets/fonts/Frutiger LT Std 75 Black/Frutiger LT Std 75 Black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Frutiger LT Std';
+    src: url('/assets/fonts/Frutiger LT Std 76 Black Italic/Frutiger LT Std 76 Black Italic.otf') format('opentype');
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+/* Frutiger LT Std Condensed */
+@font-face {
+    font-family: 'Frutiger LT Std Condensed';
+    src: url('/assets/fonts/Frutiger LT Std 47 Light Condensed/Frutiger LT Std 47 Light Condensed.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Frutiger LT Std Condensed';
+    src: url('/assets/fonts/Frutiger LT Std 57 Condensed/Frutiger LT Std 57 Condensed.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Frutiger LT Std Condensed';
+    src: url('/assets/fonts/Frutiger LT Std 67 Bold Condensed/Frutiger LT Std 67 Bold Condensed.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Frutiger LT Std Condensed';
+    src: url('/assets/fonts/Frutiger LT Std 77 Black Condensed/Frutiger LT Std 77 Black Condensed.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Frutiger LT Std Condensed';
+    src: url('/assets/fonts/Frutiger LT Std 87 Extra Black Condensed/Frutiger LT Std 87 Extra Black Condensed.otf') format('opentype');
+    font-weight: 950;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* Photo modal: растянуть картинку на всю ширину попапа без отступов */
 .swal2-popup:has(.swal-photo-container) {
     padding: 0 !important;
@@ -26,6 +121,8 @@
     --font-montserrat-alternates: 'Montserrat Alternates', sans-serif;
     --font-roboto: 'Roboto', sans-serif;
     --font-rubik: 'Rubik', sans-serif;
+    --font-frutiger: 'Frutiger LT Std', sans-serif;
+    --font-frutiger-condensed: 'Frutiger LT Std Condensed', sans-serif;
 }
 
 .gradient--main{

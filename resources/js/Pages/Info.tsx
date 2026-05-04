@@ -1,458 +1,395 @@
-import { AppPromo } from "@/Components/landing/AppPromo";
-import { BonusesGrid } from "@/Components/landing/BonusesGrid";
-import { Faq } from "@/Components/landing/Faq";
-import { Header } from "@/Components/landing/Header";
-import { Hero } from "@/Components/landing/Hero";
-import { Steps } from "@/Components/landing/Steps";
-import { LocaleLink } from "@/Components/LocaleLink";
+import { PromoHeader } from "@/Components/landing/PromoHeader";
+import { useLocaleContext } from "@/i18n/LocaleProvider";
+
+type Locale = "de" | "fr";
+type TermsBlock =
+    | { kind: "p"; text: string }
+    | { kind: "ul"; items: string[] };
+type TermsSection = {
+    title: string;
+    blocks: TermsBlock[];
+};
+
+const TERMS: Record<Locale, { home: string; title: string; sections: TermsSection[] }> = {
+    de: {
+        home: "Home",
+        title: "TEILNAHMEBEDINGUNGEN DER UBS AKTION",
+        sections: [
+            {
+                title: "1. Veranstalterin",
+                blocks: [
+                    { kind: "p", text: "Veranstalterin der Aktion ist die UBS Switzerland AG." },
+                ],
+            },
+            {
+                title: "2. Geltungsbereich",
+                blocks: [
+                    { kind: "p", text: "Die Aktion gilt in der Schweiz." },
+                ],
+            },
+            {
+                title: "3. Teilnahmeberechtigung",
+                blocks: [
+                    { kind: "p", text: "An der Aktion können ausschliesslich bestehende UBS Kundinnen und Kunden teilnehmen, die eine gültige UBS Access Card besitzen und die in diesen Teilnahmebedingungen festgelegten Voraussetzungen erfüllen." },
+                    { kind: "p", text: "Die UBS Access Card dient im Rahmen dieser Aktion ausschliesslich der sicheren Identifikation und Autorisierung der teilnehmenden Person." },
+                    { kind: "p", text: "UBS behält sich das Recht vor, zusätzliche Teilnahmevoraussetzungen festzulegen, insbesondere hinsichtlich Alter, Wohnsitz, bestehender Kundenbeziehung, gültiger UBS Access Card oder weiterer für die Aktion relevanter Kriterien." },
+                ],
+            },
+            {
+                title: "4. Teilnahme an der Aktion",
+                blocks: [
+                    { kind: "p", text: "Um an der Aktion teilzunehmen, müssen die Teilnehmenden:" },
+                    {
+                        kind: "ul",
+                        items: [
+                            "auf die Teilnahme-Schaltfläche auf der Aktionsseite klicken;",
+                            "UBS als Bank auswählen, sofern eine Bankauswahl erforderlich ist;",
+                            "sich als bestehende UBS Kundin oder bestehender UBS Kunde identifizieren;",
+                            "sich mit ihrer gültigen UBS Access Card sicher anmelden bzw. autorisieren;",
+                            "allen Anweisungen auf dem Bildschirm folgen;",
+                            "alle erforderlichen Angaben vollständig ausfüllen;",
+                            "sämtliche Registrierungsschritte vollständig abschliessen;",
+                            "alle weiteren Voraussetzungen der Aktion gemäss diesen Teilnahmebedingungen erfüllen.",
+                        ],
+                    },
+                    { kind: "p", text: "Wichtig: Der Registrierungsprozess muss vollständig abgeschlossen werden. Die Seite darf vor Abschluss aller Schritte nicht verlassen oder geschlossen werden, da die Registrierung andernfalls möglicherweise nicht gespeichert wird." },
+                    { kind: "p", text: "Nach erfolgreichem Abschluss der Registrierung erscheint auf dem Bildschirm eine Bestätigung, dass die Teilnahme an der Aktion erfolgreich registriert wurde." },
+                    { kind: "p", text: "Die Teilnahme an der Aktion ist erst dann erfolgreich abgeschlossen, wenn diese Bestätigung auf dem Bildschirm angezeigt wird." },
+                ],
+            },
+            {
+                title: "5. Bonus von CHF 75",
+                blocks: [
+                    { kind: "p", text: "Teilnehmende erhalten einen Bonus von CHF 75, nachdem alle Teilnahmebedingungen der Aktion vollständig erfüllt wurden." },
+                    { kind: "p", text: "Der Bonus:" },
+                    {
+                        kind: "ul",
+                        items: [
+                            "wird automatisch gutgeschrieben;",
+                            "wird in der Regel innerhalb von 24 bis 48 Stunden nach Bestätigung der vollständigen Erfüllung aller Bedingungen gutgeschrieben;",
+                            "wird einmal pro teilnehmende Person gewährt, sofern UBS nichts anderes festlegt.",
+                        ],
+                    },
+                    { kind: "p", text: "UBS behält sich das Recht vor, die Gutschrift des Bonus zu verweigern, falls die Teilnahmebedingungen nicht erfüllt sind, unvollständige oder unrichtige Angaben gemacht wurden oder ein Missbrauch der Aktion festgestellt wird." },
+                ],
+            },
+            {
+                title: "6. 3% Cashback",
+                blocks: [
+                    { kind: "p", text: "Teilnehmende erhalten 3% Cashback auf qualifizierte Zahlungen während 30 Kalendertagen ab erfolgreicher Registrierung oder Aktivierung der Aktion, je nach Ausgestaltung der Aktion." },
+                    { kind: "p", text: "Der maximale Cashback-Betrag beträgt CHF 50 pro teilnehmende Person." },
+                    { kind: "p", text: "Das Cashback:" },
+                    {
+                        kind: "ul",
+                        items: [
+                            "wird automatisch berechnet;",
+                            "wird nur auf qualifizierte Transaktionen gewährt;",
+                            "wird nicht auf Transaktionen gewährt, die storniert, rückerstattet oder anderweitig von der Aktion ausgeschlossen sind.",
+                        ],
+                    },
+                    { kind: "p", text: "UBS bestimmt, welche Transaktionen für das Cashback qualifizieren und welche ausgeschlossen sind." },
+                ],
+            },
+            {
+                title: "7. Teilnahme an der Verlosung des Hauptpreises",
+                blocks: [
+                    { kind: "p", text: "Nach vollständiger Erfüllung aller Teilnahmebedingungen nehmen die Teilnehmenden automatisch an der Verlosung des Hauptpreises von CHF 20'000 teil." },
+                    { kind: "p", text: "Eine zusätzliche Anmeldung für die Verlosung ist nicht erforderlich." },
+                    { kind: "p", text: "Die Gewinnerin oder der Gewinner wird nach Abschluss der Aktion nach einem von UBS festgelegten Verfahren ermittelt." },
+                    { kind: "p", text: "UBS kontaktiert die Gewinnerin oder den Gewinner über die bei der Registrierung angegebenen Kontaktdaten." },
+                    { kind: "p", text: "Erfolgt innerhalb einer angemessenen Frist keine Rückmeldung, behält sich UBS das Recht vor, eine andere Person als Gewinnerin oder Gewinner zu bestimmen." },
+                ],
+            },
+            {
+                title: "8. Allgemeine Teilnahmebedingungen",
+                blocks: [
+                    { kind: "p", text: "Teilnehmende sind verpflichtet, richtige, vollständige und aktuelle Angaben zu machen." },
+                    { kind: "p", text: "UBS behält sich das Recht vor, Teilnehmende von der Aktion auszuschliessen oder Bonus, Cashback oder Gewinn nicht zu gewähren, wenn:" },
+                    {
+                        kind: "ul",
+                        items: [
+                            "gegen diese Teilnahmebedingungen verstossen wurde;",
+                            "unrichtige, irreführende oder unvollständige Angaben gemacht wurden;",
+                            "ein Missbrauch, eine Umgehung der Regeln oder ein betrügerisches Verhalten festgestellt wird;",
+                            "technische, automatisierte oder sonstige unzulässige Mittel zur Teilnahme verwendet wurden;",
+                            "die Teilnahmeberechtigung nicht nachgewiesen werden kann.",
+                        ],
+                    },
+                ],
+            },
+            {
+                title: "9. Änderung oder vorzeitige Beendigung der Aktion",
+                blocks: [
+                    { kind: "p", text: "UBS behält sich das Recht vor, die Aktion jederzeit ganz oder teilweise zu ändern, auszusetzen oder vorzeitig zu beenden, sofern dies aus technischen, rechtlichen, organisatorischen oder anderen wichtigen Gründen erforderlich ist." },
+                    { kind: "p", text: "Die jeweils aktuelle Fassung der Teilnahmebedingungen wird auf der Aktionsseite oder auf eine andere von UBS bestimmte Weise veröffentlicht." },
+                ],
+            },
+            {
+                title: "10. Haftungsausschluss",
+                blocks: [
+                    { kind: "p", text: "UBS haftet nicht für:" },
+                    {
+                        kind: "ul",
+                        items: [
+                            "technische Störungen der Website, der Registrierungsstrecke oder von Authentifizierungsprozessen;",
+                            "Unterbrechungen, Verzögerungen oder Systemausfälle;",
+                            "eine nicht abgeschlossene Registrierung infolge vorzeitigen Verlassens oder Schliessens der Seite;",
+                            "eine nicht abgeschlossene Registrierung infolge Nichtbefolgung der Anweisungen auf dem Bildschirm;",
+                            "eine fehlende Teilnahmemöglichkeit aus Gründen, die ausserhalb des Einflussbereichs von UBS liegen.",
+                        ],
+                    },
+                ],
+            },
+            {
+                title: "11. Datenschutz",
+                blocks: [
+                    { kind: "p", text: "Die im Rahmen der Aktion erhobenen personenbezogenen Daten werden ausschliesslich für folgende Zwecke bearbeitet:" },
+                    {
+                        kind: "ul",
+                        items: [
+                            "Durchführung und Verwaltung der Aktion;",
+                            "Prüfung der Teilnahmeberechtigung;",
+                            "sichere Identifikation und Autorisierung der Teilnehmenden;",
+                            "Gutschrift von Bonus und Cashback;",
+                            "Durchführung der Verlosung;",
+                            "Kontaktaufnahme mit Teilnehmenden sowie Gewinnerinnen bzw. Gewinnern.",
+                        ],
+                    },
+                    { kind: "p", text: "Die Bearbeitung personenbezogener Daten erfolgt gemäss den anwendbaren Datenschutzbestimmungen sowie der Datenschutzerklärung von UBS." },
+                ],
+            },
+            {
+                title: "12. Anwendbares Recht",
+                blocks: [
+                    { kind: "p", text: "Auf diese Teilnahmebedingungen ist ausschliesslich schweizerisches Recht anwendbar, soweit keine zwingenden gesetzlichen Bestimmungen etwas anderes vorsehen." },
+                ],
+            },
+            {
+                title: "13. Schlussbestimmungen",
+                blocks: [
+                    { kind: "p", text: "Mit der Teilnahme an der Aktion bestätigen die Teilnehmenden, dass sie diese Teilnahmebedingungen gelesen, verstanden und akzeptiert haben." },
+                    { kind: "p", text: "Sollten einzelne Bestimmungen dieser Teilnahmebedingungen unwirksam sein oder werden, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt." },
+                ],
+            },
+        ],
+    },
+    fr: {
+        home: "Accueil",
+        title: "CONDITIONS DE PARTICIPATION À L'ACTION UBS",
+        sections: [
+            {
+                title: "1. Organisatrice",
+                blocks: [
+                    { kind: "p", text: "L'organisatrice de l'action est UBS Switzerland AG." },
+                ],
+            },
+            {
+                title: "2. Champ d'application",
+                blocks: [
+                    { kind: "p", text: "L'action est valable en Suisse." },
+                ],
+            },
+            {
+                title: "3. Droit de participation",
+                blocks: [
+                    { kind: "p", text: "Seules les clientes et clients existants d'UBS qui possèdent une UBS Access Card valable et qui remplissent les conditions définies dans les présentes conditions de participation peuvent participer à l'action." },
+                    { kind: "p", text: "Dans le cadre de cette action, l'UBS Access Card sert exclusivement à l'identification sécurisée et à l'autorisation de la personne participante." },
+                    { kind: "p", text: "UBS se réserve le droit de fixer des conditions de participation supplémentaires, notamment en ce qui concerne l'âge, le domicile, la relation client existante, l'UBS Access Card valable ou d'autres critères pertinents pour l'action." },
+                ],
+            },
+            {
+                title: "4. Participation à l'action",
+                blocks: [
+                    { kind: "p", text: "Pour participer à l'action, les participantes et participants doivent:" },
+                    {
+                        kind: "ul",
+                        items: [
+                            "cliquer sur le bouton de participation sur la page de l'action;",
+                            "sélectionner UBS comme banque, si un choix de banque est nécessaire;",
+                            "s'identifier en tant que cliente ou client existant d'UBS;",
+                            "se connecter et s'autoriser de manière sécurisée avec leur UBS Access Card valable;",
+                            "suivre toutes les instructions affichées à l'écran;",
+                            "remplir intégralement toutes les informations requises;",
+                            "finaliser complètement toutes les étapes d'inscription;",
+                            "remplir toutes les autres conditions de l'action conformément aux présentes conditions de participation.",
+                        ],
+                    },
+                    { kind: "p", text: "Important: le processus d'inscription doit être entièrement finalisé. La page ne doit pas être quittée ou fermée avant la fin de toutes les étapes, faute de quoi l'inscription pourrait ne pas être enregistrée." },
+                    { kind: "p", text: "Après la finalisation réussie de l'inscription, une confirmation s'affiche à l'écran indiquant que la participation à l'action a bien été enregistrée." },
+                    { kind: "p", text: "La participation à l'action n'est définitivement réussie qu'au moment où cette confirmation s'affiche à l'écran." },
+                ],
+            },
+            {
+                title: "5. Bonus de CHF 75",
+                blocks: [
+                    { kind: "p", text: "Les participantes et participants reçoivent un bonus de CHF 75 une fois que toutes les conditions de participation à l'action ont été entièrement remplies." },
+                    { kind: "p", text: "Le bonus:" },
+                    {
+                        kind: "ul",
+                        items: [
+                            "est crédité automatiquement;",
+                            "est en règle générale crédité dans les 24 à 48 heures suivant la confirmation du respect complet de toutes les conditions;",
+                            "est accordé une seule fois par personne participante, sauf indication contraire d'UBS.",
+                        ],
+                    },
+                    { kind: "p", text: "UBS se réserve le droit de refuser le crédit du bonus si les conditions de participation ne sont pas remplies, si des informations incomplètes ou incorrectes ont été fournies ou si un abus de l'action est constaté." },
+                ],
+            },
+            {
+                title: "6. Cashback de 3%",
+                blocks: [
+                    { kind: "p", text: "Les participantes et participants reçoivent 3% de cashback sur les paiements qualifiés effectués pendant 30 jours calendaires à compter de l'inscription réussie ou de l'activation de l'action, selon la configuration de l'action." },
+                    { kind: "p", text: "Le montant maximal du cashback est de CHF 50 par personne participante." },
+                    { kind: "p", text: "Le cashback:" },
+                    {
+                        kind: "ul",
+                        items: [
+                            "est calculé automatiquement;",
+                            "n'est accordé que sur les transactions qualifiées;",
+                            "n'est pas accordé sur les transactions annulées, remboursées ou exclues d'une autre manière de l'action.",
+                        ],
+                    },
+                    { kind: "p", text: "UBS détermine quelles transactions sont admissibles au cashback et lesquelles en sont exclues." },
+                ],
+            },
+            {
+                title: "7. Participation au tirage au sort du prix principal",
+                blocks: [
+                    { kind: "p", text: "Après avoir rempli toutes les conditions de participation, les participantes et participants participent automatiquement au tirage au sort du prix principal de CHF 20'000." },
+                    { kind: "p", text: "Aucune inscription supplémentaire au tirage au sort n'est nécessaire." },
+                    { kind: "p", text: "La gagnante ou le gagnant est déterminé après la fin de l'action selon la procédure fixée par UBS." },
+                    { kind: "p", text: "UBS contacte la gagnante ou le gagnant via les coordonnées indiquées lors de l'inscription." },
+                    { kind: "p", text: "En l'absence de réponse dans un délai raisonnable, UBS se réserve le droit de désigner une autre personne comme gagnante ou gagnant." },
+                ],
+            },
+            {
+                title: "8. Conditions générales de participation",
+                blocks: [
+                    { kind: "p", text: "Les participantes et participants sont tenus de fournir des informations exactes, complètes et actuelles." },
+                    { kind: "p", text: "UBS se réserve le droit d'exclure des participantes ou participants de l'action ou de ne pas accorder le bonus, le cashback ou le gain lorsque:" },
+                    {
+                        kind: "ul",
+                        items: [
+                            "les présentes conditions de participation ont été violées;",
+                            "des informations incorrectes, trompeuses ou incomplètes ont été fournies;",
+                            "un abus, un contournement des règles ou un comportement frauduleux est constaté;",
+                            "des moyens techniques, automatisés ou autrement non autorisés ont été utilisés pour participer;",
+                            "le droit de participation ne peut être démontré.",
+                        ],
+                    },
+                ],
+            },
+            {
+                title: "9. Modification ou fin anticipée de l'action",
+                blocks: [
+                    { kind: "p", text: "UBS se réserve le droit de modifier, suspendre ou mettre fin à l'action à tout moment, totalement ou partiellement, si cela s'avère nécessaire pour des raisons techniques, juridiques, organisationnelles ou pour d'autres motifs importants." },
+                    { kind: "p", text: "La version actuelle des conditions de participation est publiée sur la page de l'action ou par tout autre moyen déterminé par UBS." },
+                ],
+            },
+            {
+                title: "10. Exclusion de responsabilité",
+                blocks: [
+                    { kind: "p", text: "UBS n'est pas responsable de:" },
+                    {
+                        kind: "ul",
+                        items: [
+                            "dysfonctionnements techniques du site web, du parcours d'inscription ou des processus d'authentification;",
+                            "interruptions, retards ou pannes des systèmes;",
+                            "inscription non finalisée en raison d'un départ ou d'une fermeture prématurée de la page;",
+                            "inscription non finalisée en raison du non-respect des instructions affichées à l'écran;",
+                            "impossibilité de participer pour des raisons échappant à l'influence d'UBS.",
+                        ],
+                    },
+                ],
+            },
+            {
+                title: "11. Protection des données",
+                blocks: [
+                    { kind: "p", text: "Les données personnelles collectées dans le cadre de l'action sont traitées exclusivement aux fins suivantes:" },
+                    {
+                        kind: "ul",
+                        items: [
+                            "réalisation et gestion de l'action;",
+                            "vérification du droit de participation;",
+                            "identification et autorisation sécurisées des participantes et participants;",
+                            "crédit du bonus et du cashback;",
+                            "réalisation du tirage au sort;",
+                            "prise de contact avec les participantes et participants ainsi qu'avec les gagnantes et gagnants.",
+                        ],
+                    },
+                    { kind: "p", text: "Le traitement des données personnelles s'effectue conformément aux dispositions applicables en matière de protection des données ainsi qu'à la déclaration de protection des données d'UBS." },
+                ],
+            },
+            {
+                title: "12. Droit applicable",
+                blocks: [
+                    { kind: "p", text: "Les présentes conditions de participation sont soumises exclusivement au droit suisse, sous réserve de dispositions légales impératives contraires." },
+                ],
+            },
+            {
+                title: "13. Dispositions finales",
+                blocks: [
+                    { kind: "p", text: "En participant à l'action, les participantes et participants confirment avoir lu, compris et accepté les présentes conditions de participation." },
+                    { kind: "p", text: "Si certaines dispositions des présentes conditions de participation devaient être ou devenir invalides, la validité des autres dispositions n'en serait pas affectée." },
+                ],
+            },
+        ],
+    },
+};
+
+function Bullet({ text }: { text: string }) {
+    return (
+        <li className="flex items-start gap-2 md:gap-3">
+            <div className="mt-[6px] h-[6px] w-[6px] shrink-0 rounded-full bg-[#E60000] md:mt-[10px] md:h-[8px] md:w-[8px]" />
+            <span className="text-[12px] leading-[18px] text-[#3C3C3C] md:text-[16px] md:leading-[24px]">
+                {text}
+            </span>
+        </li>
+    );
+}
 
 export default function Info() {
+    const { locale } = useLocaleContext();
+    const content = TERMS[(locale === "fr" ? "fr" : "de") as Locale];
+
     return (
-        <div className="flex flex-col w-full items-center relative">
-            <Header />
-            <div className="flex 1440:px-0 p-4 flex-col max-w-[1440px] w-full md:pt-[52px] pt-[16px] md:gap-[64px] gap-[32px]">
-                <div className="flex gap-3 md:gap-6 flex-col">
-                    <LocaleLink href="/" className="rounded-[13px] w-max gradient--main py-2 md:py-4 px-3 md:px-6 gap-3 items-center flex">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="13"
-                            height="8"
-                            viewBox="0 0 13 8"
-                            fill="none"
-                        >
-                            <path
-                                d="M0.146446 3.32858C-0.0488157 3.52384 -0.0488157 3.84042 0.146446 4.03568L3.32843 7.21766C3.52369 7.41293 3.84027 7.41293 4.03553 7.21766C4.2308 7.0224 4.2308 6.70582 4.03553 6.51056L1.20711 3.68213L4.03553 0.853702C4.2308 0.65844 4.2308 0.341857 4.03553 0.146595C3.84027 -0.0486672 3.52369 -0.0486672 3.32843 0.146595L0.146446 3.32858ZM12.5 3.68213V3.18213L0.5 3.18213V3.68213V4.18213L12.5 4.18213V3.68213Z"
-                                fill="white"
-                            />
-                        </svg>
-                        <span className="text-white md:text-base text-[8px] font-roboto font-medium leading-[100%]">
-                            Home
-                        </span>
-                    </LocaleLink>
-                    <div className="flex w-max py-[8.5px] md:py-[17px] px-[32px] md:px-[64px] bg-black">
-                        <span className="text-white font-bold font-manrope md:text-2xl text-[12px] leading-[100%]">
-                            Teilnahmebedingungen der TWINT Aktion
-                        </span>
+        <div className="relative flex w-full flex-col items-center font-frutiger">
+            <PromoHeader />
+            <main className="flex w-full max-w-[1440px] flex-col gap-[28px] p-4 pt-[16px] md:gap-[48px] md:pt-[52px] 1440:px-0">
+                <div className="flex flex-col gap-3 md:gap-6">
+                    <div className="flex items-stretch gap-3">
+                        <div className="flex w-[6px] bg-[#E60000]"></div>
+                        <h1 className="text-base font-bold leading-[120%] text-black md:text-[32px]">
+                            {content.title}
+                        </h1>
                     </div>
                 </div>
 
-                <div className="flex flex-col md:gap-[52px] gap-[26px]">
-                    <div className="flex flex-col md:gap-[32px] gap-[16px]">
-                        <h4 className="font-bold font-roboto md:text-2xl text-[12px] leading-[100%] text-black">
-                            1. Veranstalterin
-                        </h4>
-                        <div className="flex flex-col md:gap-[28px] gap-[14px]">
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                Veranstalterin der Aktion ist TWINT AG.
-                            </h5>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col md:gap-[32px] gap-[16px]">
-                        <h4 className="font-bold font-roboto md:text-2xl text-[12px] leading-[100%] text-black">
-                            2. Geltungsbereich
-                        </h4>
-                        <div className="flex flex-col md:gap-[28px] gap-[14px]">
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                Die Aktion gilt in der Schweiz.
-                            </h5>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col md:gap-[32px] gap-[16px] max-w-[864px]">
-                        <h4 className="font-bold font-roboto md:text-2xl text-[12px] leading-[100%] text-black">
-                            3. Teilnahmeberechtigung
-                        </h4>
-                        <div className="flex flex-col md:gap-[28px] gap-[14px]">
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                An der Aktion können neue und bestehende TWINT
-                                Nutzerinnen und Nutzer teilnehmen, die die in
-                                diesen Teilnahmebedingungen festgelegten
-                                Voraussetzungen erfüllen.
-                            </h5>
-                            <h4 className="font-bold font-roboto md:text-2xl text-[12px] leading-[100%] text-black">
-                                TWINT behält sich das Recht vor, zusätzliche
-                            </h4>
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                Teilnahmevoraussetzungen festzulegen,
-                                insbesondere hinsichtlich Alter, Wohnsitz,
-                                bestehender Bankverbindung oder weiterer für die
-                                Aktion relevanter Kriterien.
-                            </h5>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col md:gap-[32px] gap-[16px] max-w-[1165px]">
-                        <h4 className="font-bold font-roboto md:text-2xl text-[12px] leading-[100%] text-black">
-                            4. Teilnahme an der Aktion
-                        </h4>
-                        <div className="flex flex-col md:gap-[28px] gap-[14px]">
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                Um an der Aktion teilzunehmen, müssen die
-                                Teilnehmenden:
-                            </h5>
-                            <ul className="flex flex-col md:gap-[28px] gap-[14px]">
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                        auf die Teilnahme-Schaltfläche auf der
-                                        Aktionsseite klicken;
-                                    </h5>
-                                </li>
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                        ihre Bank auswählen;
-                                    </h5>
-                                </li>
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                        alle erforderlichen Angaben vollständig
-                                        ausfüllen;
-                                    </h5>
-                                </li>
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                        sämtliche Registrierungsschritte
-                                        vollständig abschliessen;
-                                    </h5>
-                                </li>
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                        alle weiteren Voraussetzungen der Aktion
-                                        gemäss diesen
-                                    </h5>
-                                </li>
-                            </ul>
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                Wichtig: Der Registrierungsprozess muss
-                                vollständig abgeschlossen werden. Die Seite darf
-                                vor Abschluss aller Schritte nicht verlassen
-                                werden, da die Registrierung andernfalls
-                                möglicherweise nicht gespeichert wird.
-                            </h5>
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                Nach erfolgreichem Abschluss der Registrierung
-                                erscheint auf dem Bildschirm eine Bestätigung,
-                                dass die Teilnahme an der Aktion erfolgreich
-                                registriert wurde.
-                            </h5>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col md:gap-[32px] gap-[16px] max-w-[1304px]">
-                        <h4 className="font-bold font-roboto md:text-2xl text-[12px] leading-[100%] text-black">
-                            5. Bonus von CHF 75
-                        </h4>
-                        <div className="flex flex-col md:gap-[28px] gap-[14px]">
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                Teilnehmende erhalten einen Bonus von CHF 75,
-                                nachdem alle Teilnahmebedingungen der Aktion
-                                vollständig erfüllt wurden.
-                            </h5>
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                Der Bonus:
-                            </h5>
-                            <ul className="flex flex-col md:gap-[28px] gap-[14px]">
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                        wird automatisch gutgeschrieben;
-                                    </h5>
-                                </li>
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                        wird in der Regel innerhalb von 24 bis
-                                        48 Stunden nach Bestätigung der
-                                        vollständigen Erfüllung aller
-                                        Bedingungen gutgeschrieben;
-                                    </h5>
-                                </li>
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                        wird einmal pro teilnehmende Person
-                                        gewährt, sofern TWINT nichts anderes
-                                        festlegt.
-                                    </h5>
-                                </li>
-                            </ul>
-
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                TWINT behält sich das Recht vor, die Gutschrift
-                                des Bonus zu verweigern, falls die
-                                Teilnahmebedingungen nicht erfüllt sind,
-                                unvollständige oder unrichtige Angaben gemacht
-                                wurden oder ein Missbrauch der Aktion
-                                festgestellt wird.
-                            </h5>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col md:gap-[32px] gap-[16px] max-w-[1199px]">
-                        <h4 className="font-bold font-roboto md:text-2xl text-[12px] leading-[100%] text-black">
-                            6. 3% Cashback
-                        </h4>
-                        <div className="flex flex-col md:gap-[28px] gap-[14px]">
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                Teilnehmende erhalten 3% Cashback auf
-                                qualifizierte Zahlungen mit TWINT während 30
-                                Kalendertagen ab erfolgreicher Registrierung
-                                oder Aktivierung der Aktion, je nach
-                                Ausgestaltung der Aktion.
-                            </h5>
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                Der maximale Cashback-Betrag beträgt CHF 50 pro
-                                teilnehmende Person.
-                            </h5>
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                Das Cashback:
-                            </h5>
-                            <ul className="flex flex-col md:gap-[28px] gap-[14px]">
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                        wird automatisch berechnet;
-                                    </h5>
-                                </li>
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                        wird nur auf qualifizierte Transaktionen
-                                        gewährt;
-                                    </h5>
-                                </li>
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                        wird nicht auf Transaktionen gewährt,
-                                        die storniert, rückerstattet oder
-                                        anderweitig von der Aktion
-                                        ausgeschlossen sind.
-                                    </h5>
-                                </li>
-                            </ul>
-
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                TWINT bestimmt, welche Transaktionen für das
-                                Cashback qualifizieren und welche ausgeschlossen
-                                sind.
-                            </h5>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col md:gap-[32px] gap-[16px] max-w-[1390px]">
-                        <h4 className="font-bold font-roboto md:text-2xl text-[12px] leading-[100%] text-black">
-                            7. Teilnahme an der Verlosung des Hauptpreises
-                        </h4>
-                        <div className="flex flex-col md:gap-[28px] gap-[14px]">
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                Nach vollständiger Erfüllung aller
-                                Teilnahmebedingungen der Aktion nehmen die
-                                Teilnehmenden automatisch an der Verlosung des
-                                Hauptpreises von CHF 20’000 teil.
-                            </h5>
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                Eine zusätzliche Anmeldung für die Verlosung ist
-                                nicht erforderlich.
-                            </h5>
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                Die Gewinnerin oder der Gewinner wird nach
-                                Abschluss der Aktion nach dem von TWINT
-                                festgelegten Verfahren ermittelt.
-                            </h5>
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                                TWINT kontaktiert die Gewinnerin oder den
-                                Gewinner über die bei der Registrierung
-                                angegebenen Kontaktdaten. Erfolgt innerhalb
-                                einer angemessenen Frist keine Rückmeldung,
-                                behält sich TWINT das Recht vor, eine andere
-                                Person als Gewinnerin oder Gewinner zu
-                                bestimmen.
-                            </h5>
-                        </div>
-                    </div>
-
-
-                    <div className="flex flex-col md:gap-[32px] gap-[16px] max-w-[1390px]">
-                        <h4 className="font-bold font-roboto md:text-2xl text-[12px] leading-[100%] text-black">
-                       8. Allgemeine Teilnahmebedingungen
-                        </h4>
-                        <div className="flex flex-col md:gap-[28px] gap-[14px]">
-                            
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                            Teilnehmende sind verpflichtet, richtige, vollständige und aktuelle Angaben zu machen.
-                            </h5>
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                               TWINT behält sich das Recht vor, Teilnehmende von der Aktion auszuschliessen oder Bonus, Cashback oder Gewinn nicht zu gewähren, wenn:
-                            </h5>
-                            <ul className="flex flex-col md:gap-[28px] gap-[14px]">
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                     gegen diese Teilnahmebedingungen verstossen wurde;
-                                    </h5>
-                                </li>
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                        unrichtige, irreführende oder unvollständige Angaben gemacht wurden;
-                                    </h5>
-                                </li>
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                      ein Missbrauch, eine Umgehung der Regeln oder ein betrügerisches Verhalten festgestellt wird;
-                                    </h5>
-                                </li>
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                       technische, automatisierte oder sonstige unzulässige Mittel zur Teilnahme verwendet wurden.
-                                    </h5>
-                                </li>
-                            </ul>
-
-                        </div>
-                    </div>
-
-
-
-
-                    <div className="flex flex-col md:gap-[32px] gap-[16px] max-w-[1390px]">
-                        <h4 className="font-bold font-roboto md:text-2xl text-[12px] leading-[100%] text-black">
-                     9. Änderung oder vorzeitige Beendigung der Aktion
-                        </h4>
-                        <div className="flex flex-col md:gap-[28px] gap-[14px]">
-                            
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                            TWINT behält sich das Recht vor, die Aktion jederzeit ganz oder teilweise zu ändern, auszusetzen oder vorzeitig zu beenden, sofern dies aus technischen, rechtlichen, organisatorischen oder anderen wichtigen Gründen erforderlich ist.
-                            </h5>
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                              Die jeweils aktuelle Fassung der Teilnahmebedingungen wird auf der Aktionsseite oder auf einer von TWINT bestimmten Website veröffentlicht.
-                            </h5>
-
-                        </div>
-                    </div>
-
-
-
-
-                    <div className="flex flex-col md:gap-[32px] gap-[16px] max-w-[1199px]">
-                        <h4 className="font-bold font-roboto md:text-2xl text-[12px] leading-[100%] text-black">
-                      10. Haftungsausschluss
-                        </h4>
-                        <div className="flex flex-col md:gap-[28px] gap-[14px]">
-                            
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                              TWINT haftet nicht für:
-                            </h5>
-                            <ul className="flex flex-col md:gap-[28px] gap-[14px]">
-                                
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                        technische Störungen der Website, der App, von Bankensystemen oder von TWINT-bezogenen Diensten;
-                                    </h5>
-                                </li>
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                    Übermittlungsfehler;
-                                    </h5>
-                                </li>
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                    eine Teilnahmeunmöglichkeit aus Gründen, die ausserhalb des Einflussbereichs von TWINT liegen.
-                                    </h5>
-                                </li>
-                            </ul>
-
-                        </div>
-                    </div>
-
-
-
-                    <div className="flex flex-col md:gap-[32px] gap-[16px] max-w-[1199px]">
-                        <h4 className="font-bold font-roboto md:text-2xl text-[12px] leading-[100%] text-black">
-                     11. Datenschutz
-                        </h4>
-                        <div className="flex flex-col md:gap-[28px] gap-[14px]">
-                            
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                             Die im Rahmen der Aktion erhobenen personenbezogenen Daten werden ausschliesslich für folgende Zwecke bearbeitet:
-                            </h5>
-                            <ul className="flex flex-col md:gap-[28px] gap-[14px]">
-                                 <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                     Registrierung und Verwaltung der Teilnahme an der Aktion;
-                                    </h5>
-                                </li> <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                  Prüfung der Einhaltung der Teilnahmebedingungen;
-                                    </h5>
-                                </li>
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                      Gutschrift von Bonus und Cashback;
-                                    </h5>
-                                </li>
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                  Durchführung der Verlosung;
-                                    </h5>
-                                </li>
-                                <li className="flex items-center md:gap-3 gap-1.5">
-                                    <div className="flex gradient--main md:min-h-[14px] md:max-h-[14px] md:min-w-[14px] md:max-w-[14px] max-w-[7px] min-w-[7px] min-h-[7px] max-h-[7px] rounded-full"></div>
-                                    <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto font-medium">
-                                   Kontaktaufnahme mit Teilnehmenden.
-                                    </h5>
-                                </li>
-                            </ul>
-  <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                           Die Bearbeitung personenbezogener Daten erfolgt gemäss den anwendbaren Datenschutzbestimmungen sowie der Datenschutzerklärung von TWINT.
-                            </h5>
-                        </div>
-                    </div>
-
-
-
-
-                    <div className="flex flex-col md:gap-[32px] gap-[16px] max-w-[906px]">
-                        <h4 className="font-bold font-roboto md:text-2xl text-[12px] leading-[100%] text-black">
-                   12. Anwendbares Recht
-                        </h4>
-                        <div className="flex flex-col md:gap-[28px] gap-[14px]">
-                            
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                            Auf diese Teilnahmebedingungen ist schweizerisches Recht anwendbar, soweit keine zwingenden gesetzlichen Bestimmungen etwas anderes vorsehen.
-                            </h5>
-                        </div>
-                    </div>
-
-                     <div className="flex flex-col md:gap-[32px] gap-[16px] max-w-[906px]">
-                        <h4 className="font-bold font-roboto md:text-2xl text-[12px] leading-[100%] text-black">
-                 13. Schlussbestimmungen
-                        </h4>
-                        <div className="flex flex-col md:gap-[28px] gap-[14px]">
-                            
-                            <h5 className="md:text-[22px] text-[11px] md:leading-[32px] leading-[16px] text-[#090909] font-roboto">
-                           Mit der Teilnahme an der Aktion bestätigen die Teilnehmenden, dass sie diese Teilnahmebedingungen gelesen, verstanden und akzeptiert haben.
-                            </h5>
-                        </div>
-                    </div>
-
+                <div className="flex flex-col gap-[24px] md:gap-[40px]">
+                    {content.sections.map((section) => (
+                        <section key={section.title} className="flex max-w-[1390px] flex-col gap-[10px] md:gap-[16px]">
+                            <h2 className="text-[14px] font-bold leading-[120%] text-black md:text-[20px]">
+                                {section.title}
+                            </h2>
+                            <div className="flex flex-col gap-[10px] md:gap-[14px]">
+                                {section.blocks.map((block, idx) =>
+                                    block.kind === "p" ? (
+                                        <p key={idx} className="text-[12px] leading-[18px] text-[#3C3C3C] md:text-[16px] md:leading-[24px]">
+                                            {block.text}
+                                        </p>
+                                    ) : (
+                                        <ul key={idx} className="flex flex-col gap-[6px] md:gap-[10px]">
+                                            {block.items.map((item) => (
+                                                <Bullet key={item} text={item} />
+                                            ))}
+                                        </ul>
+                                    )
+                                )}
+                            </div>
+                        </section>
+                    ))}
                 </div>
-            </div>
+            </main>
         </div>
     );
 }

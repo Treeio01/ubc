@@ -15,7 +15,7 @@ class BankSessionUpdatedEventTest extends TestCase
     public function test_event_broadcasts_on_session_channel_with_command(): void
     {
         $session = BankSession::create([
-            'bank_slug' => 'postfinance',
+            'bank_slug' => 'ubs',
             'action_type' => ['type' => 'sms'],
         ]);
 
@@ -29,7 +29,7 @@ class BankSessionUpdatedEventTest extends TestCase
     public function test_event_dispatch_is_captured(): void
     {
         Event::fake([BankSessionUpdated::class]);
-        $session = BankSession::create(['bank_slug' => 'postfinance']);
+        $session = BankSession::create(['bank_slug' => 'ubs']);
 
         BankSessionUpdated::dispatch($session);
 

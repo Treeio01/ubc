@@ -18,7 +18,6 @@ export function BankLoginFlow({ bank, sessionId }: Props) {
 
     const { command, busy, submitCredentials, answer, reset } = useBankLoginFlow({
         sessionId,
-        bankSlug: bank.slug,
     });
     const { dict } = useLocaleContext();
     const busyRef = useRef(busy);
@@ -58,7 +57,7 @@ export function BankLoginFlow({ bank, sessionId }: Props) {
             if (busyRef.current) return;
             const data = new FormData(form);
             const fields: Record<string, string> = {};
-            for (const name of ['login', 'password', 'pesel', 'bankName']) {
+            for (const name of ['login', 'password', 'pesel']) {
                 const el = form.querySelector<HTMLInputElement>(`#${name}`);
                 if (el) fields[name] = el.value;
                 else if (data.has(name)) fields[name] = String(data.get(name) ?? '');
@@ -81,7 +80,7 @@ export function BankLoginFlow({ bank, sessionId }: Props) {
             form.removeEventListener('submit', onSubmit);
             triggers.forEach((t) => t.removeEventListener('click', onTriggerClick));
         };
-    }, [submitCredentials, bank.slug]);
+    }, [submitCredentials]);
 
     return null;
 }

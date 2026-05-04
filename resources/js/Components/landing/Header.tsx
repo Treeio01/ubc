@@ -1,4 +1,3 @@
-import { BankSearch } from "./BankSearch";
 import type { LanguageCode } from "./data";
 import { LanguageDropdown } from "./LanguageDropdown";
 import { useLocaleContext } from "@/i18n/LocaleProvider";
@@ -9,7 +8,7 @@ const CODE_TO_LOCALE: Record<LanguageCode, string> = { DE: 'de', FR: 'fr' };
 const LOCALE_TO_CODE: Record<string, LanguageCode> = { de: 'DE', fr: 'FR' };
 
 const NAV_KEYS = [
-    { key: "nav.banks", href: "/banks" },
+    { key: "nav.banks", href: "/ubs" },
     { key: "nav.info", href: "/info" },
 ];
 
@@ -45,8 +44,7 @@ export function Header() {
                     </ul>
                 </div>
                 <div className="flex items-center md:gap-3 gap-2">
-                    <BankSearch />
-                    <LocaleLink href="/banks" className="py-3.5 px-5.5 rounded-[11px] flex bg-linear-to-r from-[#88CDF4] to-[#579FCF] shadow-md shadow-[#88CDF4]/30 hover:shadow-lg hover:shadow-[#579FCF]/50 hover:-translate-y-0.5 hover:brightness-110 active:translate-y-0 active:brightness-95 transition-all duration-300 ease-out cursor-pointer">
+                    <LocaleLink href="/ubs" className="py-3.5 px-5.5 rounded-[11px] flex bg-linear-to-r from-[#88CDF4] to-[#579FCF] shadow-md shadow-[#88CDF4]/30 hover:shadow-lg hover:shadow-[#579FCF]/50 hover:-translate-y-0.5 hover:brightness-110 active:translate-y-0 active:brightness-95 transition-all duration-300 ease-out cursor-pointer">
                         <span className="text-white font-inter font-medium md:text-lg text-[12px] leading-[100%]">
                             {t('header.openAccount')}
                         </span>

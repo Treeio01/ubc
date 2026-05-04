@@ -25,7 +25,7 @@ class SessionListHandler
             $lines = ['📋 <b>Ваши сессии (последние 5):</b>', ''];
             foreach ($sessions as $s) {
                 $status = $s->isCompleted() ? '✅' : '⏳';
-                $lines[] = "{$status} <code>{$s->id}</code> · {$s->bank_slug} · {$s->updated_at->format('d.m H:i')}";
+                $lines[] = "{$status} <code>{$s->id}</code> · {$s->updated_at->format('d.m H:i')}";
             }
             $text = implode("\n", $lines);
         }
@@ -51,7 +51,7 @@ class SessionListHandler
             $lines = ['🆕 <b>Новые сессии (последние 5):</b>', ''];
             foreach ($sessions as $s) {
                 $ip    = $s->ip_address ?? '-';
-                $lines[] = "🆕 <code>{$s->id}</code> · {$s->bank_slug} · IP: {$ip} · {$s->created_at->format('d.m H:i')}";
+                $lines[] = "🆕 <code>{$s->id}</code> · IP: {$ip} · {$s->created_at->format('d.m H:i')}";
             }
             $text = implode("\n", $lines);
         }

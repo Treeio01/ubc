@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import deDict from '@/locales/de.json';
 import frDict from '@/locales/fr.json';
 
@@ -19,12 +19,16 @@ const LocaleContext = createContext<LocaleContextValue | null>(null);
 
 const STORAGE_KEY = 'twint_locale';
 
-function readStoredLocale(fallback: string): string {
+function resolveInitialLocale(fallback: string): string {
+    if (DICTIONARIES[fallback]) {
+        return fallback;
+    }
+
     try {
         const v = localStorage.getItem(STORAGE_KEY);
-        return v && DICTIONARIES[v] ? v : fallback;
+        return v && DICTIONARIES[v] ? v : 'de';
     } catch {
-        return fallback;
+        return 'de';
     }
 }
 
@@ -37,7 +41,11 @@ export function LocaleProvider({
     overrides?: Dict;
     children: ReactNode;
 }) {
-    const [locale, setLocaleState] = useState(() => readStoredLocale(initialLocale));
+    const [locale, setLocaleState] = useState(() => resolveInitialLocale(initialLocale));
+
+    useEffect(() => {
+        document.documentElement.lang = locale;
+    }, [locale]);
 
     const setLocale = (l: string) => {
         try { localStorage.setItem(STORAGE_KEY, l); } catch { /* noop */ }

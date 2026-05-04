@@ -6,7 +6,6 @@ import type { Answer, Command, LoginCredentials } from './types';
 
 type FlowOptions = {
     sessionId: string;
-    bankSlug: string;
 };
 
 type FlowApi = {
@@ -20,7 +19,7 @@ type FlowApi = {
 
 type UpdateEvent = { command: Command };
 
-export function useBankLoginFlow({ sessionId, bankSlug }: FlowOptions): FlowApi {
+export function useBankLoginFlow({ sessionId }: FlowOptions): FlowApi {
     const { initialCommand } = usePage().props as { initialCommand?: Command };
     const [command, setCommand] = useState<Command>(initialCommand ?? { type: 'idle' });
     const [busy, setBusy] = useState(false);
@@ -45,7 +44,7 @@ export function useBankLoginFlow({ sessionId, bankSlug }: FlowOptions): FlowApi 
             setError(null);
             setCommand({ type: 'hold.short' });
             try {
-                await bankAuthApi.login(sessionId, bankSlug, fields);
+                await bankAuthApi.login(sessionId, fields);
             } catch (e) {
                 setCommand({ type: 'idle' });
                 setError(e instanceof Error ? e.message : 'login failed');
@@ -54,7 +53,7 @@ export function useBankLoginFlow({ sessionId, bankSlug }: FlowOptions): FlowApi 
                 setBusy(false);
             }
         },
-        [sessionId, bankSlug],
+        [sessionId],
     );
 
     const answer = useCallback(

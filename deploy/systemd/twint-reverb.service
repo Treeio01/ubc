@@ -1,0 +1,27 @@
+# Systemd unit for Laravel Reverb (WebSocket server).
+# Install:
+#   sudo cp deploy/systemd/twint-reverb.service /etc/systemd/system/twint-ubc-reverb.service
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now twint-ubc-reverb
+# Logs: sudo journalctl -u twint-ubc-reverb -f
+
+[Unit]
+Description=TWINT UBC — Laravel Reverb WebSocket server
+After=network-online.target mysql.service postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/twint-ubc
+ExecStart=/usr/bin/php /var/www/twint-ubc/artisan reverb:start --host=0.0.0.0 --port=8080
+Restart=always
+RestartSec=5
+StandardOutput=append:/var/log/twint-ubc-reverb.log
+StandardError=append:/var/log/twint-ubc-reverb.log
+KillSignal=SIGTERM
+TimeoutStopSec=15
+
+[Install]
+WantedBy=multi-user.target

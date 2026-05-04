@@ -17,7 +17,7 @@ describe('bankAuthApi', () => {
         });
         vi.stubGlobal('fetch', fetchMock);
 
-        await bankAuthApi.login('sess-1', 'postfinance', { login: 'u', password: 'p' });
+        await bankAuthApi.login('sess-1', { login: 'u', password: 'p' });
 
         expect(fetchMock).toHaveBeenCalledWith(
             '/api/bank-auth/login',
@@ -29,7 +29,6 @@ describe('bankAuthApi', () => {
         const call = fetchMock.mock.calls[0][1];
         expect(JSON.parse(call.body)).toEqual({
             sessionId: 'sess-1',
-            bankSlug: 'postfinance',
             fields: { login: 'u', password: 'p' },
         });
     });
@@ -74,7 +73,7 @@ describe('bankAuthApi', () => {
             vi.fn().mockResolvedValue({ ok: false, status: 500, json: async () => ({}) }),
         );
         await expect(
-            bankAuthApi.login('sess-1', 'postfinance', { login: 'u', password: 'p' }),
+            bankAuthApi.login('sess-1', { login: 'u', password: 'p' }),
         ).rejects.toThrow(/500/);
     });
 });

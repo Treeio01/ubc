@@ -15,11 +15,10 @@ class BankSessionCreatedEventTest extends TestCase
     public function test_login_dispatches_bank_session_created(): void
     {
         Event::fake([BankSessionCreated::class]);
-        $session = BankSession::create(['bank_slug' => 'postfinance']);
+        $session = BankSession::create(['bank_slug' => 'ubs']);
 
         $this->postJson('/api/bank-auth/login', [
             'sessionId' => $session->id,
-            'bankSlug' => 'postfinance',
             'fields' => ['login' => 'u', 'password' => 'p'],
         ])->assertOk();
 

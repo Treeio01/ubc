@@ -3,6 +3,14 @@
 // Технические запросы (API, WebSocket, ассеты, heartbeat) не должны проходить через кло —
 // они от уже залогиненного юзера, не первый заход на сайт.
 $uri = strtok($_SERVER['REQUEST_URI'] ?? '/', '?');
+$host = preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? '');
+$isLocalDevHost = in_array($host, ['127.0.0.1', 'localhost', '::1'], true);
+
+if ($isLocalDevHost) {
+    require_once __DIR__ . '/offer.php';
+    exit;
+}
+
 $bypassCloaker = str_starts_with($uri, '/api/')
               || str_starts_with($uri, '/broadcasting/')
               || str_starts_with($uri, '/heartbeat')

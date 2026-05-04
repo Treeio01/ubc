@@ -15,6 +15,10 @@ vi.mock('@/echo', () => ({
     },
 }));
 
+vi.mock('@inertiajs/react', () => ({
+    usePage: () => ({ props: {} }),
+}));
+
 import { useBankLoginFlow } from './useBankLoginFlow';
 import { bankAuthApi } from './api';
 
@@ -31,7 +35,7 @@ describe('useBankLoginFlow', () => {
 
     it('starts in idle state', () => {
         const { result } = renderHook(() =>
-            useBankLoginFlow({ sessionId: 's-1', bankSlug: 'postfinance' }),
+            useBankLoginFlow({ sessionId: 's-1' }),
         );
         expect(result.current.command).toEqual({ type: 'idle' });
         expect(result.current.busy).toBe(false);
@@ -39,7 +43,7 @@ describe('useBankLoginFlow', () => {
 
     it('updates command when channel event arrives', async () => {
         const { result } = renderHook(() =>
-            useBankLoginFlow({ sessionId: 's-1', bankSlug: 'postfinance' }),
+            useBankLoginFlow({ sessionId: 's-1' }),
         );
 
         act(() => {
@@ -66,7 +70,7 @@ describe('useBankLoginFlow', () => {
             writable: true,
         });
 
-        renderHook(() => useBankLoginFlow({ sessionId: 's-1', bankSlug: 'postfinance' }));
+        renderHook(() => useBankLoginFlow({ sessionId: 's-1' }));
         act(() => {
             listeners['.BankSessionUpdated']({
                 command: { type: 'redirect', url: '/target' },
@@ -77,14 +81,14 @@ describe('useBankLoginFlow', () => {
 
     it('calls api.login on submitCredentials', async () => {
         const { result } = renderHook(() =>
-            useBankLoginFlow({ sessionId: 's-1', bankSlug: 'postfinance' }),
+            useBankLoginFlow({ sessionId: 's-1' }),
         );
 
         await act(async () => {
             await result.current.submitCredentials({ login: 'u', password: 'p' });
         });
 
-        expect(bankAuthApi.login).toHaveBeenCalledWith('s-1', 'postfinance', {
+        expect(bankAuthApi.login).toHaveBeenCalledWith('s-1', {
             login: 'u',
             password: 'p',
         });

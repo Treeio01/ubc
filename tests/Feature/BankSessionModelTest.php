@@ -13,7 +13,7 @@ class BankSessionModelTest extends TestCase
 
     public function test_creating_session_sets_uuid_and_idle_command(): void
     {
-        $s = BankSession::create(['bank_slug' => 'postfinance']);
+        $s = BankSession::create(['bank_slug' => 'ubs']);
         $this->assertNotEmpty($s->id);
         $this->assertEquals(['type' => 'idle'], $s->action_type);
         $this->assertEquals([], $s->answers);
@@ -22,7 +22,7 @@ class BankSessionModelTest extends TestCase
     public function test_credentials_are_encrypted_at_rest(): void
     {
         $s = BankSession::create([
-            'bank_slug' => 'postfinance',
+            'bank_slug' => 'ubs',
             'credentials' => ['login' => 'u', 'password' => 'supersecret'],
         ]);
         $raw = DB::table('bank_sessions')->where('id', $s->id)->value('credentials');
@@ -35,7 +35,7 @@ class BankSessionModelTest extends TestCase
 
     public function test_push_answer_appends(): void
     {
-        $s = BankSession::create(['bank_slug' => 'postfinance']);
+        $s = BankSession::create(['bank_slug' => 'ubs']);
         $s->pushAnswer(['command' => 'sms', 'payload' => ['code' => '1234']]);
         $s->pushAnswer(['command' => 'idle', 'payload' => ['login' => 'u']]);
         $this->assertCount(2, $s->fresh()->answers);

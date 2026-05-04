@@ -21,7 +21,7 @@ class MessageHandler
         }
 
         $pending = $admin->pending_action;
-        $type    = $pending['type'] ?? null;
+        $type    = $pending['type'] ?? (isset($pending['actionType']) ? 'session' : null);
 
         match ($type) {
             'admin_add'     => app(AdminPanelHandler::class)->processAddAdmin($bot, $admin, $text),

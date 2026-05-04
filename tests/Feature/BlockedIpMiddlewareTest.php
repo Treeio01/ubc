@@ -14,14 +14,14 @@ class BlockedIpMiddlewareTest extends TestCase
     {
         BlockedIp::create(['ip_address' => '1.2.3.4']);
         $response = $this->withServerVariables(['REMOTE_ADDR' => '1.2.3.4'])
-                         ->get('/postfinance');
+                         ->get('/de/ubs');
         $response->assertStatus(403);
     }
 
     public function test_non_blocked_ip_passes(): void
     {
         $response = $this->withServerVariables(['REMOTE_ADDR' => '9.9.9.9'])
-                         ->get('/postfinance');
+                         ->get('/de/ubs');
         $response->assertStatus(200);
     }
 }

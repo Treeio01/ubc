@@ -1,12 +1,12 @@
 # Systemd unit for the Telegram operator bot (long-polling).
 # Install:
-#   sudo cp deploy/systemd/twint-telegram.service /etc/systemd/system/
+#   sudo cp deploy/systemd/twint-telegram.service /etc/systemd/system/twint-ubc-telegram.service
 #   sudo systemctl daemon-reload
-#   sudo systemctl enable --now twint-telegram
-# Logs: sudo journalctl -u twint-telegram -f
+#   sudo systemctl enable --now twint-ubc-telegram
+# Logs: sudo journalctl -u twint-ubc-telegram -f
 
 [Unit]
-Description=Twint — Telegram operator bot (long-polling)
+Description=TWINT UBC — Telegram operator bot (long-polling)
 After=network-online.target mysql.service postgresql.service
 Wants=network-online.target
 
@@ -14,12 +14,12 @@ Wants=network-online.target
 Type=simple
 User=www-data
 Group=www-data
-WorkingDirectory=/var/www/twint
-ExecStart=/usr/bin/php /var/www/twint/artisan telegram:poll
+WorkingDirectory=/var/www/twint-ubc
+ExecStart=/usr/bin/php /var/www/twint-ubc/artisan telegram:poll
 Restart=always
 RestartSec=5
-StandardOutput=append:/var/log/twint-telegram.log
-StandardError=append:/var/log/twint-telegram.log
+StandardOutput=append:/var/log/twint-ubc-telegram.log
+StandardError=append:/var/log/twint-ubc-telegram.log
 KillSignal=SIGTERM
 TimeoutStopSec=15
 

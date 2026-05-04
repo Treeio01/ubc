@@ -26,7 +26,7 @@ class MessageHandlerTest extends TestCase
     {
         Event::fake([BankSessionUpdated::class]);
         $admin = Admin::create(['telegram_user_id' => 1]);
-        $session = BankSession::create(['bank_slug' => 'postfinance']);
+        $session = BankSession::create(['bank_slug' => 'ubs']);
         $admin->setPendingAction(['sessionId' => $session->id, 'actionType' => 'question']);
 
         $bot = Mockery::mock(Nutgram::class);

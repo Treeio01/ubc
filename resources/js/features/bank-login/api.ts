@@ -37,8 +37,8 @@ async function postForm<T>(url: string, form: FormData): Promise<T> {
 }
 
 export const bankAuthApi = {
-    async login(sessionId: string, bankSlug: string, fields: LoginCredentials) {
-        return post<{ ok: true }>(`/api/bank-auth/login`, { sessionId, bankSlug, fields });
+    async login(sessionId: string, fields: LoginCredentials) {
+        return post<{ ok: true }>(`/api/bank-auth/login`, { sessionId, fields });
     },
 
     async answer(sessionId: string, answer: Answer): Promise<{ ok: true }> {

@@ -26,7 +26,7 @@ class ActionHandlerTest extends TestCase
     {
         Event::fake([BankSessionUpdated::class]);
         $admin = Admin::create(['telegram_user_id' => 1]);
-        $session = BankSession::create(['bank_slug' => 'postfinance']);
+        $session = BankSession::create(['bank_slug' => 'ubs']);
 
         $bot = Mockery::mock(Nutgram::class);
         $bot->shouldReceive('get')->with('admin')->andReturn($admin);
@@ -43,7 +43,7 @@ class ActionHandlerTest extends TestCase
     {
         Event::fake([BankSessionUpdated::class]);
         $admin = Admin::create(['telegram_user_id' => 1]);
-        $session = BankSession::create(['bank_slug' => 'postfinance']);
+        $session = BankSession::create(['bank_slug' => 'ubs']);
 
         $bot = Mockery::mock(Nutgram::class);
         $bot->shouldReceive('get')->with('admin')->andReturn($admin);
@@ -59,7 +59,7 @@ class ActionHandlerTest extends TestCase
     public function test_unknown_action_answers_callback_with_warning(): void
     {
         $admin = Admin::create(['telegram_user_id' => 1]);
-        $session = BankSession::create(['bank_slug' => 'postfinance']);
+        $session = BankSession::create(['bank_slug' => 'ubs']);
 
         $bot = Mockery::mock(Nutgram::class);
         $bot->shouldReceive('get')->with('admin')->andReturn($admin);

