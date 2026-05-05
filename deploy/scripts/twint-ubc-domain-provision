@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DOMAIN="${1:-}"
+DOMAIN="${DOMAIN,,}"
+DOMAIN="${DOMAIN#http://}"
+DOMAIN="${DOMAIN#https://}"
+DOMAIN="${DOMAIN%%/*}"
+DOMAIN="${DOMAIN%%:*}"
+DOMAIN="${DOMAIN%.}"
+
+PROJECT_DIR="/var/www/twint-ubc"
+ENV_FILE="${PROJECT_DIR}/.env"
+ALIAS_FILE="/etc/apache2/twint-ubc-server-aliases.conf"
+LOCK_FILE="/run/twint-ubc-domain-provision.lock"
+
+if [[ ! "${DOMAIN}" =~ ^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$ ]]; then
+    echo "Invalid domain format." >&2
+    exit 2
+fi
+
+if [[ ! -f "${ENV_FILE}" ]]; then
+    echo "UBC .env was not found." >&2
+    exit 3
+fi
+
+update_env_hosts() {
+    local current hosts updated exists host
+
+    current="$(grep -m1 '^CLOAKER_BYPASS_HOSTS=' "${ENV_FILE}" 2>/dev/null | cut -d= -f2- || true)"
+    current="${current%\"}"
+    current="${current#\"}"
+    current="${current%\'}"
+    current="${current#\'}"
+
+    IFS=',' read -ra hosts <<< "${current}"
+    updated=()
+    exists=0
+
+    for host in "${hosts[@]}"; do
+        host="$(echo "${host}" | xargs)"
+        [[ -z "${host}" ]] && continue
+        updated+=("${host}")
+        [[ "${host}" == "${DOMAIN}" ]] && exists=1
+    done
+
+    if [[ "${exists}" -eq 0 ]]; then
+        updated+=("${DOMAIN}")
+    fi
+
+    local joined
+    joined="$(IFS=,; echo "${updated[*]}")"
+
+    if grep -q '^CLOAKER_BYPASS_HOSTS=' "${ENV_FILE}"; then
+        sed -i "s|^CLOAKER_BYPASS_HOSTS=.*|CLOAKER_BYPASS_HOSTS=${joined}|" "${ENV_FILE}"
+    else
+        printf '\nCLOAKER_BYPASS_HOSTS=%s\n' "${joined}" >> "${ENV_FILE}"
+    fi
+
+    chown www-data:www-data "${ENV_FILE}"
+    chmod 640 "${ENV_FILE}"
+}
+
+(
+    flock -x 9
+
+    touch "${ALIAS_FILE}"
+
+    if ! grep -Eq "^[[:space:]]*ServerAlias[[:space:]]+${DOMAIN//./\\.}([[:space:]]|$)" "${ALIAS_FILE}"; then
+        printf 'ServerAlias %s\n' "${DOMAIN}" >> "${ALIAS_FILE}"
+    fi
+
+    update_env_hosts
+
+    apache2ctl configtest >/dev/null
+    systemctl reload apache2
+) 9>"${LOCK_FILE}"
+
+echo "Domain ${DOMAIN} is provisioned for UBC."

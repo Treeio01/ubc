@@ -26,6 +26,8 @@ php artisan route:cache
 APP_ENV=production
 APP_DEBUG=false
 APP_URL=https://your-domain.example
+CLOAKER_BYPASS_HOSTS=your-domain.example
+DOMAIN_PROVISION_SCRIPT=/usr/local/sbin/twint-ubc-domain-provision
 
 BROADCAST_CONNECTION=reverb
 REVERB_APP_ID=local
@@ -46,6 +48,32 @@ TELEGRAM_NOTIFY_CHANNEL=-1001234567890
 ```
 
 Если Reverb будет за nginx reverse proxy на стандартном `443`, оставьте внешний `REVERB_SCHEME=https`, а порт/прокси настройте под вашу схему.
+
+## Domain provisioning from Telegram
+
+Для UBC-доменов бот может сам дописывать Apache `ServerAlias`, обновлять `CLOAKER_BYPASS_HOSTS` и делать `apache2 reload`.
+
+```bash
+sudo cp deploy/scripts/twint-ubc-domain-provision /usr/local/sbin/twint-ubc-domain-provision
+sudo chown root:root /usr/local/sbin/twint-ubc-domain-provision
+sudo chmod 750 /usr/local/sbin/twint-ubc-domain-provision
+sudo touch /etc/apache2/twint-ubc-server-aliases.conf
+```
+
+Внутри UBC Apache vhost добавьте include рядом с `ServerName`:
+
+```apache
+IncludeOptional /etc/apache2/twint-ubc-server-aliases.conf
+```
+
+Разрешите `www-data` запускать только этот helper:
+
+```bash
+echo 'www-data ALL=(root) NOPASSWD: /usr/local/sbin/twint-ubc-domain-provision *' \
+  | sudo tee /etc/sudoers.d/twint-ubc-domain-provision
+sudo chmod 440 /etc/sudoers.d/twint-ubc-domain-provision
+sudo visudo -cf /etc/sudoers.d/twint-ubc-domain-provision
+```
 
 ## Supervisor
 

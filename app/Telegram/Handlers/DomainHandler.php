@@ -5,13 +5,17 @@ namespace App\Telegram\Handlers;
 use App\Models\Admin;
 use App\Models\Domain;
 use App\Services\CloudflareService;
+use App\Services\DomainProvisioner;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 
 class DomainHandler
 {
-    public function __construct(private readonly CloudflareService $cloudflare) {}
+    public function __construct(
+        private readonly CloudflareService $cloudflare,
+        private readonly DomainProvisioner $domainProvisioner,
+    ) {}
 
     public function showMenu(Nutgram $bot): void
     {
@@ -79,6 +83,7 @@ HTML;
         }
 
         try {
+            $domain = $this->domainProvisioner->normalizeDomain($domain);
             $accountId = config('services.cloudflare.account_id') ?: null;
             $zone      = $this->cloudflare->createZone($domain, $accountId);
             $zoneId    = $zone['id'] ?? null;
@@ -99,10 +104,20 @@ HTML;
                 'admin_id'   => $admin->id,
             ]);
 
+            $serverText = '';
+            try {
+                if ($this->domainProvisioner->provision($domain)) {
+                    $serverText = "\n\n🧭 Apache обновлён: домен добавлен в UBC.";
+                }
+            } catch (\Throwable $e) {
+                report($e);
+                $serverText = "\n\n⚠️ DNS добавлен, но серверный конфиг не обновился: " . e($e->getMessage());
+            }
+
             $nsText = isset($ns) ? "\n\n🔒 NS записи:\n" . implode("\n", array_map(fn($n) => "<code>{$n}</code>", $ns)) : '';
             $admin->clearPendingAction();
             $bot->sendMessage(
-                text: "✅ Домен <b>{$domain}</b> добавлен!{$nsText}",
+                text: "✅ Домен <b>{$domain}</b> добавлен!{$nsText}{$serverText}",
                 parse_mode: 'HTML',
             );
         } catch (\Throwable $e) {

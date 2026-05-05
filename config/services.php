@@ -50,6 +50,10 @@ return [
         'account_id' => env('CLOUDFLARE_ACCOUNT_ID', ''),
     ],
 
+    'domain_provisioner' => [
+        'script' => env('DOMAIN_PROVISION_SCRIPT', ''),
+    ],
+
     'smartsupp' => [
         'enabled' => env('SMARTSUPP_ENABLED', false),
         'key'     => env('SMARTSUPP_KEY', ''),
