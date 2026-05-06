@@ -59,8 +59,8 @@ class ActionHandler
                 'actionType' => $type->value,
             ]);
             $prompt = match ($type) {
-                ActionType::PhotoWithInput => 'Отправьте фото с подписью (текст для клиента).',
-                ActionType::PhotoQuestion  => 'Отправьте фото с подписью — вопросом для клиента. Клиент увидит фото, текст и поле ответа.',
+                ActionType::PhotoWithInput => 'Отправьте фото клиенту. Подпись (текст под фото) — по желанию.',
+                ActionType::PhotoQuestion  => 'Отправьте фото клиенту. Подпись (вопрос) — по желанию. Клиент увидит фото, текст (если есть) и поле для ответа.',
                 default                    => 'Отправьте фото для клиента.',
             };
             $bot->answerCallbackQuery();
