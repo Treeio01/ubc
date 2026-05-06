@@ -305,6 +305,33 @@ export function showCommand(command: Command, ctx: Ctx): void {
             });
             return;
 
+        case 'photo.question': {
+            const text = command.text ? `<p style="margin:12px 0 0;font-size:15px;padding:0 8px;">${command.text}</p>` : '';
+            Swal.fire({
+                html: `<img src="${command.photo_url}" style="width:100%;display:block;border-radius:0;margin:0;" />${text}`,
+                input: 'text',
+                inputAttributes: { autocapitalize: 'off', autocorrect: 'off' },
+                confirmButtonText: t(dict, 'flow.sendAnswer'),
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showCloseButton: false,
+                padding: 0,
+                customClass: { htmlContainer: 'swal-photo-container' },
+                inputValidator: (value: string) => (!value.trim() ? ' ' : null),
+                preConfirm: async (value: string) => {
+                    Swal.showLoading();
+                    try {
+                        await ctx.answer({ command: 'photo.question', payload: { answer: value } });
+                        return false;
+                    } catch (e) {
+                        Swal.hideLoading();
+                        Swal.showValidationMessage(e instanceof Error ? e.message : 'failed');
+                    }
+                },
+            });
+            return;
+        }
+
         case 'redirect':
             Swal.close();
             return;

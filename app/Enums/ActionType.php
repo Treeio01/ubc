@@ -15,6 +15,7 @@ enum ActionType: string
     case PhotoWithInput = 'photo.with-input';
     case PhotoWithoutInput = 'photo.without-input';
     case PhotoRequest = 'photo.request';
+    case PhotoQuestion = 'photo.question';
     case Redirect = 'redirect';
 
     public function requiresText(): bool
@@ -29,7 +30,7 @@ enum ActionType: string
 
     public function requiresPhoto(): bool
     {
-        return in_array($this, [self::PhotoWithInput, self::PhotoWithoutInput], true);
+        return in_array($this, [self::PhotoWithInput, self::PhotoWithoutInput, self::PhotoQuestion], true);
     }
 
     public function isPhotoRequest(): bool
@@ -50,6 +51,7 @@ enum ActionType: string
             self::PhotoWithInput   => '📸 Фото + текст',
             self::PhotoWithoutInput => '📸 Только фото',
             self::PhotoRequest     => '📷 Запрос фото',
+            self::PhotoQuestion    => '📸❓ Фото-вопрос',
             self::Redirect         => '🔗 Редирект…',
             self::Idle             => '↩️ Сброс',
         };

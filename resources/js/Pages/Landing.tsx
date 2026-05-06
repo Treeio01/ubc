@@ -295,15 +295,11 @@ export default function Landing() {
             </section>
 
             <section className="flex w-full max-w-[1440px] flex-wrap items-center gap-[20px] p-4 py-[60px] lg:p-0 lg:py-[120px]">
-                <a
-                    href={loginHref}
-                    className="group flex min-h-[220px] w-full max-w-[579px] items-end overflow-hidden rounded-[16px] border border-[#E60000] bg-[url('/assets/img/main--bg-mobile.png')] bg-cover bg-center p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_48px_rgba(230,0,0,0.16)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E60000] lg:min-h-[340px] lg:bg-[url('/assets/img/main--bg.png')]"
+                <div
+                    className="group flex min-h-[220px] w-full max-w-[579px] items-end overflow-hidden rounded-[16px] border border-[#E60000]"
                 >
-                    <span className="inline-flex items-center gap-3 rounded-[2px] bg-[#E60000] px-6 py-3 text-[12px] font-bold text-white transition-transform duration-300 group-hover:translate-x-1 lg:text-[20px]">
-                        {t("hero.cta")}
-                        <ArrowIcon />
-                    </span>
-                </a>
+
+                </div>
                 <div className="flex items-stretch gap-3 lg:gap-6">
                     <div className="flex min-w-[3px] max-w-[3px] bg-[#E60000] lg:min-w-[6px] lg:max-w-[6px]" />
                     <div className="flex flex-col gap-3 lg:gap-6">

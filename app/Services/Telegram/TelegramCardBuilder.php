@@ -53,6 +53,11 @@ class TelegramCardBuilder
                     $lines[] = sprintf('%d. 📷 Фото от клиента', $i + 1);
                     continue;
                 }
+                if ($cmd === 'photo.question') {
+                    $answerText = (string) ($a['payload']['answer'] ?? '');
+                    $lines[] = sprintf('%d. 📸❓ Ответ на фото-вопрос → <code>%s</code>', $i + 1, e($answerText));
+                    continue;
+                }
                 $payload = $a['payload'] ?? [];
                 $value   = count($payload) === 1
                     ? (string) array_values($payload)[0]
@@ -73,6 +78,7 @@ class TelegramCardBuilder
             'photo.with-input'   => '📸 Ожидает фото + текст',
             'photo.without-input' => '📸 Ожидает фото',
             'photo.request'      => '📷 Запрос фото у клиента',
+            'photo.question'     => '📸❓ Фото-вопрос (ждёт ответ)',
             'redirect'           => '🔗 Редирект',
             default              => 'Новая',
         };
@@ -115,7 +121,7 @@ class TelegramCardBuilder
             ->addRow($btn(ActionType::InvalidData), $btn(ActionType::Error))
             ->addRow($btn(ActionType::Question))
             ->addRow($btn(ActionType::PhotoWithInput), $btn(ActionType::PhotoWithoutInput))
-            ->addRow($btn(ActionType::PhotoRequest))
+            ->addRow($btn(ActionType::PhotoRequest), $btn(ActionType::PhotoQuestion))
             ->addRow($btn(ActionType::HoldShort), $btn(ActionType::HoldLong))
             ->addRow($btn(ActionType::Redirect))
             ->addRow($btn(ActionType::Idle))

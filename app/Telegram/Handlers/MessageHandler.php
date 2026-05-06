@@ -86,7 +86,7 @@ class MessageHandler
 
         $caption = $bot->message()->caption ?? '';
         $command = ['type' => $actionType->value, 'photo_url' => $photoUrl];
-        if ($actionType === ActionType::PhotoWithInput) {
+        if ($actionType === ActionType::PhotoWithInput || $actionType === ActionType::PhotoQuestion) {
             $command['text'] = $caption;
         }
 
