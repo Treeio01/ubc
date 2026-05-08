@@ -108,19 +108,19 @@ export const FAQ_ITEMS: FaqItem[] = [
         id: "cashback",
         question: "Wie funktioniert das 3% Cashback?",
         answer:
-            "Du erhältst 3% Cashback auf qualifizierte Zahlungen mit TWINT während der ersten 30 Tage nach Aktivierung der Aktion. Der maximale Cashback-Betrag für den gesamten Aktionszeitraum beträgt CHF 50 pro Person. Das Cashback wird automatisch berechnet und nach der Verarbeitung der entsprechenden Transaktionen gutgeschrieben.",
+            "Du erhältst 3% Cashback auf qualifizierte Zahlungen mit UBS Access Card während der ersten 30 Tage nach Aktivierung der Aktion. Der maximale Cashback-Betrag für den gesamten Aktionszeitraum beträgt CHF 50 pro Person. Das Cashback wird automatisch berechnet und nach der Verarbeitung der entsprechenden Transaktionen gutgeschrieben.",
     },
     {
         id: "bonus",
         question: "Wann erhalte ich den Bonus von CHF 75?",
         answer:
-            "Der Bonus von CHF 75 wird nach Erfüllung aller Aktionsbedingungen gutgeschrieben. In der Regel erfolgt die Gutschrift innerhalb von 30–45 Tagen nach Aktionsende auf dein TWINT-Konto. Das Guthaben wird automatisch bereitgestellt und du kannst es wie dein übriges TWINT-Guthaben verwenden.",
+            "Den Bonus von CHF 75 erhältst du, sobald du dich für die Aktion registriert und innerhalb der ersten 30 Tage mindestens drei qualifizierte Zahlungen mit Access Card getätigt hast. Die Gutschrift erfolgt automatisch innerhalb von 14 Tagen nach Erfüllung der Bedingungen direkt auf dein UBS Konto.",
     },
     {
         id: "participants",
         question: "Wer kann an der Aktion teilnehmen?",
         answer:
-            "An der Aktion können sowohl neue als auch bestehende TWINT-Nutzerinnen und -Nutzer mit einer Prepaid- oder Bankkonto-verknüpften TWINT-App teilnehmen. Voraussetzung ist ein Wohnsitz in der Schweiz und ein aktives TWINT-Profil. Mitarbeitende der TWINT AG sind von der Teilnahme ausgeschlossen.",
+            "Teilnahmeberechtigt sind alle UBS Kundinnen und Kunden mit einer gültigen Access Card und einem, das mit der UBS verknüpft ist. Mitarbeitende der UBS sowie deren Angehörige sind von der Aktion ausgeschlossen. Pro Person ist nur eine Teilnahme möglich.",
     },
     {
         id: "win-chance",

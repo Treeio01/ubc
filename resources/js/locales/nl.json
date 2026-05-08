@@ -24,13 +24,13 @@
     "banks.title": "Kies uw bank",
     "header.openAccount": "Account openen",
 
-    "hero.badge": "Exclusief voor bestaande TWINT-gebruikers",
-    "hero.title": "Profiteer van meer voordelen met TWINT",
-    "hero.description": "Ontvang een bonus van CHF 75, 3% cashback in de eerste 30 dagen en kans op CHF 20.000. Zowel nieuwe als bestaande TWINT-gebruikers kunnen deelnemen.",
+    "hero.badge": "Exclusief voor UBS-klanten met Access Card",
+    "hero.title": "UBS voordelen veiligstellen met je Access Card",
+    "hero.description": "Registreer je veilig via UBS-toegang en activeer de actie in slechts enkele stappen. Na afronding ben je automatisch aangemeld voor bonus, cashback en winkans.",
     "hero.cta": "Nu deelnemen",
 
-    "promo.title": "TWINT in het dagelijks leven – nu nog voordeliger",
-    "promo.description": "Betaal snel en gemakkelijk in de winkel, online en tussen vrienden. TWINT loont nu nog meer: doe mee aan de actie en profiteer van bonus, cashback en kans op de hoofdprijs.",
+    "promo.title": "UBS Access Card in het dagelijks leven – nu nog voordeliger",
+    "promo.description": "Betaal snel en gemakkelijk in de winkel, online en tussen vrienden. Je UBS Access Card loont nu nog meer: doe mee aan de actie en profiteer van bonus, cashback en kans op de hoofdprijs.",
     "promo.cta": "Meer informatie",
 
     "bonus.bonus75.title1": "Bonus van",
@@ -59,11 +59,11 @@
     "step.4.desc": "Na succesvolle afronding ben je geregistreerd voor de actie.",
 
     "faq.cashback.q": "Hoe werkt de 3% cashback?",
-    "faq.cashback.a": "Je ontvangt 3% cashback op gekwalificeerde betalingen met TWINT tijdens de eerste 30 dagen na activering van de actie. Het maximale cashbackbedrag voor de gehele actieperiode bedraagt CHF 50 per persoon. De cashback wordt automatisch berekend en bijgeschreven na verwerking van de betreffende transacties.",
+    "faq.cashback.a": "Je ontvangt 3% cashback op gekwalificeerde betalingen met je UBS Access Card tijdens de eerste 30 dagen na activering van de actie. Het maximale cashbackbedrag voor de gehele actieperiode bedraagt CHF 50 per persoon. De cashback wordt automatisch berekend en bijgeschreven na verwerking van de betreffende transacties.",
     "faq.bonus.q": "Wanneer ontvang ik de bonus van CHF 75?",
-    "faq.bonus.a": "De bonus van CHF 75 wordt bijgeschreven nadat alle actievoorwaarden zijn vervuld. Normaal gesproken vindt de bijschrijving binnen 30–45 dagen na afloop van de actie plaats op je TWINT-tegoed. Het tegoed wordt automatisch beschikbaar gesteld en je kunt het gebruiken zoals je overige TWINT-tegoed.",
+    "faq.bonus.a": "De bonus van CHF 75 wordt bijgeschreven nadat alle actievoorwaarden zijn vervuld. Normaal gesproken vindt de bijschrijving binnen 14 dagen na het voldoen aan de voorwaarden direct plaats op je UBS-rekening.",
     "faq.participants.q": "Wie kan deelnemen aan de actie?",
-    "faq.participants.a": "Zowel nieuwe als bestaande TWINT-gebruikers met een prepaid- of bankrekening-gekoppelde TWINT-app kunnen deelnemen. Vereiste is een woonadres in Zwitserland en een actief TWINT-profiel. Medewerkers van TWINT AG zijn uitgesloten van deelname.",
+    "faq.participants.a": "Deelname staat open voor alle UBS-klanten met een geldige Access Card die aan UBS is gekoppeld. Medewerkers van UBS en hun naasten zijn uitgesloten van deelname. Per persoon is slechts één deelname mogelijk.",
     "faq.winChance.q": "Hoe maak ik kans op CHF 20.000?",
     "faq.winChance.a": "Elke gekwalificeerde betaling tijdens de actieperiode telt automatisch als een lot voor de verloting van de hoofdprijs van CHF 20.000. Hoe meer gekwalificeerde transacties je doet, hoe groter je winkansen. De winnaar wordt na afloop van de actie geloot en direct op de hoogte gesteld.",
     "faq.howJoin.q": "Hoe kan ik deelnemen?",

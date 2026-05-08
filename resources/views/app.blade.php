@@ -5,13 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title inertia>{{ config('app.name', 'TWINT') }}</title>
+    <title inertia>{{ config('app.name', 'UBS') }}</title>
 
-    <meta name="description" content="Profitiere von mehr Vorteilen mit TWINT – CHF 75 Bonus, 3% Cashback und die Chance auf CHF 20'000.">
+    <meta name="description" content="UBS Vorteile mit Access Card sichern – CHF 75 Bonus, 3% Cashback und die Chance auf CHF 20'000.">
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="TWINT – Mehr Vorteile mit deiner Bank">
-    <meta property="og:description" content="Profitiere von mehr Vorteilen mit TWINT – CHF 75 Bonus, 3% Cashback und die Chance auf CHF 20'000.">
+    <meta property="og:title" content="UBS – Vorteile mit deiner Access Card">
+    <meta property="og:description" content="UBS Vorteile mit Access Card sichern – CHF 75 Bonus, 3% Cashback und die Chance auf CHF 20'000.">
     <meta property="og:image" content="{{ asset('assets/img/main-img.png') }}">
     <meta name="twitter:card" content="summary_large_image">
 
