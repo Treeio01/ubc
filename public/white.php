@@ -7,11 +7,11 @@
 
 $page = $_GET['p'] ?? 'home';
 $pages = [
-    'home'    => ['Манифест',   '01'],
-    'catalog' => ['Каталог',    '02'],
-    'oracle'  => ['Оракул',     '03'],
-    'museum'  => ['Архив-Музей','04'],
-    'logs'    => ['Журнал',     '05'],
+    'home'    => ['Manifesto', '01'],
+    'catalog' => ['Catalog',   '02'],
+    'oracle'  => ['Oracle',    '03'],
+    'museum'  => ['Archive',   '04'],
+    'logs'    => ['Logbook',   '05'],
 ];
 if (!isset($pages[$page])) {
     $page = 'home';
@@ -22,73 +22,73 @@ $seed   = (int) date('Ymd');
 mt_srand($seed);
 
 $prophecies = [
-    'Сегодня где-то во Вселенной образуется червоточина в форме кота.',
-    'Один из ваших носков уже пересёк горизонт событий. Не ищите.',
-    'Космос моргнул. Это был не сон.',
-    'Чёрная дыра M-87 отказывается есть овощи. Поддержите её морально.',
-    'Гравитация — это просто кот, который сел на ткань пространства-времени.',
-    'Сегодня вторник в трёх измерениях, четверг в одном. Готовьтесь.',
-    'Ваш холодильник тихо излучает. Не паникуйте — это нормально.',
-    'Где-то есть планета, целиком покрытая кошачьей шерстью. Туда не летают.',
-    'Свет от далёкой звезды наконец дошёл. Звезды уже нет. Свет извиняется.',
-    'Вы существуете. Это статистическое чудо. Поздравляем.',
+    'Somewhere in the Universe today, a wormhole shaped like a cat is forming.',
+    'One of your socks has already crossed the event horizon. Do not look for it.',
+    'The cosmos blinked. It was not a dream.',
+    'Black hole M-87 refuses to eat its vegetables. Please support it emotionally.',
+    'Gravity is just a cat that sat down on the fabric of spacetime.',
+    'Today is Tuesday in three dimensions and Thursday in one. Plan accordingly.',
+    'Your fridge is quietly emitting radiation. Do not panic — this is normal.',
+    'There is a planet entirely covered in cat fur. No flights are scheduled.',
+    'Light from a distant star has finally arrived. The star is gone. The light apologises.',
+    'You exist. This is a statistical miracle. Congratulations.',
 ];
 $prophecyToday = $prophecies[mt_rand(0, count($prophecies) - 1)];
 
 $bhCatalog = [
     [
         'id'         => 'BH-7741-ω',
-        'name'       => 'Маркиза Бархат',
-        'mass'       => '4.2 × 10³⁰ кг',
-        'mood'       => 'Любопытствующая',
-        'designer'   => 'Архитектор-кот Пушок III',
-        'note'       => 'Поглощает только звёзды класса G. Остальные считает не своим уровнем.',
+        'name'       => 'Marquise Velvet',
+        'mass'       => '4.2 × 10³⁰ kg',
+        'mood'       => 'Curious',
+        'designer'   => 'Cat-Architect Fluffy III',
+        'note'       => 'Consumes only G-class stars. The rest are considered beneath her station.',
     ],
     [
         'id'         => 'BH-2025-Δ',
-        'name'       => 'Уголёк-Не-Тот',
-        'mass'       => '1.7 × 10³¹ кг',
-        'mood'       => 'Дремлет',
-        'designer'   => 'Архитектор-кот Барсик Великий',
-        'note'       => 'Известна периодическим выпуском фотонов в форме клубочков.',
+        'name'       => 'Coal-That-Isn\'t',
+        'mass'       => '1.7 × 10³¹ kg',
+        'mood'       => 'Dozing',
+        'designer'   => 'Cat-Architect Barsik the Great',
+        'note'       => 'Known for periodically emitting photons shaped like yarn balls.',
     ],
     [
         'id'         => 'BH-Ω-04',
-        'name'       => 'Лапоня',
-        'mass'       => 'непостоянная',
-        'mood'       => 'Ничего личного',
-        'designer'   => 'Анонимный архитектор',
-        'note'       => 'Диета: одно солнце в неделю. По средам — рыбные туманности.',
+        'name'       => 'Pawpaw',
+        'mass'       => 'inconsistent',
+        'mood'       => 'Nothing personal',
+        'designer'   => 'Anonymous architect',
+        'note'       => 'Diet: one sun per week. On Wednesdays — fish nebulae only.',
     ],
     [
         'id'         => 'BH-MEW-99',
-        'name'       => 'Серёжа',
-        'mass'       => '8.1 × 10³² кг',
-        'mood'       => 'Подозревает',
-        'designer'   => 'Архитектор-кот Мурзик-Беспредел',
-        'note'       => 'Не доверяет соседним галактикам. Просит не подходить ближе 100 кпк.',
+        'name'       => 'Steven',
+        'mass'       => '8.1 × 10³² kg',
+        'mood'       => 'Suspicious',
+        'designer'   => 'Cat-Architect Murzik the Lawless',
+        'note'       => 'Distrusts neighbouring galaxies. Asks them not to approach within 100 kpc.',
     ],
     [
         'id'         => 'BH-SOFA',
-        'name'       => 'Диванный',
-        'mass'       => 'преимущественно — пыль',
-        'mood'       => 'Теоретическая',
-        'designer'   => 'Архитектор-кот Ватрушка',
-        'note'       => 'Возможно, не существует. Финансирование продолжается.',
+        'name'       => 'The Couchy One',
+        'mass'       => 'mostly dust',
+        'mood'       => 'Theoretical',
+        'designer'   => 'Cat-Architect Cheesecake',
+        'note'       => 'May not exist. Funding nevertheless continues.',
     ],
 ];
 
 $logs = [
-    ['2526.04.07', 'Поступила жалоба от созвездия Рыб: один из котов опять перевернул их миску.'],
-    ['2526.03.31', 'Архитектор Пушок III подал заявку на расширение Млечного Пути на 4%. Отклонено.'],
-    ['2526.03.18', 'Чёрная дыра «Лапоня» съела пробное Солнце. Отчёт описан как «нормально, но без энтузиазма».'],
-    ['2526.02.29', 'День, которого не должно было быть. Архив рекомендует не вспоминать.'],
-    ['2526.02.14', 'Все коты получили валентинки от собственных хвостов. Никто не понял, как.'],
-    ['2526.01.05', 'Обнаружена планета, на которой коты — это единицы измерения времени. 1 кот = 16 минут вальяжности.'],
-    ['2525.12.22', 'Архитектор Серёжа отказался выходить из коробки. Бюро признало коробку новым подразделением.'],
-    ['2525.11.11', 'Гравитационная волна несла записку: «корм закончился». Источник не установлен.'],
-    ['2525.10.02', 'Произведена инспекция чёрной дыры Уголёк. Обнаружено: всё в порядке. Подозрительно.'],
-    ['2525.09.19', 'Внеплановое мяуканье на частоте 21 см. Радиотелескопы временно ослеплены умилением.'],
+    ['2526.04.07', 'Complaint received from the Pisces constellation: one of the cats knocked over their bowl again.'],
+    ['2526.03.31', 'Architect Fluffy III filed a request to expand the Milky Way by 4%. Denied.'],
+    ['2526.03.18', 'Black hole "Pawpaw" consumed a trial Sun. Report described as "fine, but lacking enthusiasm".'],
+    ['2526.02.29', 'A day that should not have existed. The Archive recommends forgetting it.'],
+    ['2526.02.14', 'All cats received Valentines from their own tails. Nobody understood how.'],
+    ['2526.01.05', 'Discovered: a planet where cats are units of time. 1 cat = 16 minutes of regality.'],
+    ['2525.12.22', 'Architect Steven refused to leave his box. The Bureau declared the box a new department.'],
+    ['2525.11.11', 'A gravitational wave carried a note: "we are out of food". Source unknown.'],
+    ['2525.10.02', 'Black hole Coal-That-Isn\'t was inspected. Result: everything in order. Suspicious.'],
+    ['2525.09.19', 'Unscheduled meowing detected on the 21 cm band. Radio telescopes temporarily blinded by cuteness.'],
 ];
 
 $asciiCats = [
@@ -103,7 +103,7 @@ $asciiCats = [
 $siteTitle = 'INTERGALACTIC BUREAU OF CAT-ARCHITECTS';
 
 ?><!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -393,19 +393,19 @@ footer .blink{display:inline-block;width:10px;height:10px;background:var(--hot);
         <span style="left:50%;top:35%;animation-delay:-12s">🌌</span>
     </div>
 
-    <p class="crumb">Депеша № 0001 · только для своих ушей</p>
-    <h1 class="huge">Мы проектируем <em>чёрные&nbsp;дыры.</em><br>Главный архитектор — <u>кот.</u></h1>
+    <p class="crumb">Dispatch № 0001 · for trusted ears only</p>
+    <h1 class="huge">We design <em>black&nbsp;holes.</em><br>The chief architect is a <u>cat.</u></h1>
 
     <div class="hero">
         <div>
             <p style="font-size:20px;line-height:1.5;max-width:560px;margin-bottom:24px">
-                Интергалактическое Бюро Котов-Архитекторов — это закрытое содружество хвостатых
-                специалистов, которые с самого начала Вселенной занимаются проектированием
-                сингулярностей, орбит и редких космических настроений.
+                The Intergalactic Bureau of Cat-Architects is a closed fellowship of
+                tailed specialists who, since the dawn of the Universe, have been
+                designing singularities, orbits and rare cosmic moods.
             </p>
             <p style="font-size:16px;line-height:1.6;max-width:560px;opacity:.7">
-                Здесь нет CTA, форм, сборов, обещаний кешбэка. Только космос, коты и слегка
-                раздражённое осознание собственной незначительности.
+                No CTAs here. No forms. No collections. No cashback promises. Only
+                cosmos, cats, and a mildly irritated awareness of one's own insignificance.
             </p>
         </div>
         <aside class="hero-side">
@@ -417,59 +417,59 @@ footer .blink{display:inline-block;width:10px;height:10px;background:var(--hot);
 > reason to exist...... TBD
 > mood................. weather-dependent
 > last spotted UFO..... yesterday, near sofa
-> next eclipse......... <i>уже идёт, ты не заметил</i>
+> next eclipse......... <i>already happening, you didn't notice</i>
 </pre>
         </aside>
     </div>
 
     <div class="tiles">
         <a href="?p=catalog" class="tile t1">
-            <span class="tile-num">02 / каталог</span>
+            <span class="tile-num">02 / catalog</span>
             <div>
-                <div class="tile-title">Реестр чёрных дыр</div>
-                <div class="tile-desc">Имена, массы, настроения. Не кормить.</div>
+                <div class="tile-title">Black hole registry</div>
+                <div class="tile-desc">Names, masses, moods. Do not feed.</div>
             </div>
         </a>
         <a href="?p=oracle" class="tile t2">
-            <span class="tile-num">03 / оракул</span>
+            <span class="tile-num">03 / oracle</span>
             <div>
-                <div class="tile-title">Космический прогноз</div>
-                <div class="tile-desc">Одна правда в день. Возможно — ваша.</div>
+                <div class="tile-title">Cosmic forecast</div>
+                <div class="tile-desc">One truth a day. Possibly yours.</div>
             </div>
         </a>
         <a href="?p=museum" class="tile t3">
-            <span class="tile-num">04 / архив</span>
+            <span class="tile-num">04 / archive</span>
             <div>
-                <div class="tile-title">Галерея архитекторов</div>
-                <div class="tile-desc">Портреты в формате ASCII. Без ретуши.</div>
+                <div class="tile-title">Architects' gallery</div>
+                <div class="tile-desc">Portraits in ASCII. No retouching.</div>
             </div>
         </a>
         <a href="?p=logs" class="tile t4">
-            <span class="tile-num">05 / журнал</span>
+            <span class="tile-num">05 / logbook</span>
             <div>
-                <div class="tile-title">Журнал происшествий</div>
-                <div class="tile-desc">10 строк, которые никто не должен был читать.</div>
+                <div class="tile-title">Incident logbook</div>
+                <div class="tile-desc">10 lines that nobody was supposed to read.</div>
             </div>
         </a>
     </div>
 
     <article class="manifesto">
-        <h3>Манифест Бюро (выдержки)</h3>
-        <p>Мы верим, что Вселенная — это не случайность. Это один очень крупный кот, который однажды решил вытянуться.</p>
-        <p>Мы признаём, что чёрные дыры — это не пустоты. Это места, куда уходят носки, шариковые ручки и причины вставать по понедельникам.</p>
-        <p>Мы отказываемся быть полезными. Польза — это форма пыли. Пыль мы убираем по графику, который нам тоже не нравится.</p>
-        <p>Мы не продаём. Мы не собираем. Мы не трекаем. Мы наблюдаем — но обычно не вас, а ту маленькую точку света между вашим левым плечом и потолком.</p>
-        <p>Мы признаём существование вторника, но с оговорками.</p>
-        <p>Мы оставляем за собой право быть неправыми. Пять раз. Подряд. До обеда.</p>
+        <h3>Bureau Manifesto (excerpts)</h3>
+        <p>We believe the Universe is not an accident. It is one very large cat that, at some point, decided to stretch.</p>
+        <p>We acknowledge that black holes are not voids. They are the places where socks, ballpoint pens, and reasons to get up on Mondays go.</p>
+        <p>We refuse to be useful. Usefulness is a form of dust. We sweep dust on a schedule we also dislike.</p>
+        <p>We do not sell. We do not collect. We do not track. We observe — but usually not you, rather that small dot of light between your left shoulder and the ceiling.</p>
+        <p>We acknowledge the existence of Tuesday, with reservations.</p>
+        <p>We reserve the right to be wrong. Five times. In a row. Before lunch.</p>
     </article>
 
 <?php elseif ($page === 'catalog'): ?>
-    <p class="crumb">Раздел 02 · Реестр действующих сингулярностей</p>
-    <h1 class="huge">Каталог <em>чёрных дыр,</em><br>находящихся под <u>опекой Бюро.</u></h1>
+    <p class="crumb">Section 02 · Registry of active singularities</p>
+    <h1 class="huge">A catalog of <em>black holes,</em><br>currently under <u>Bureau supervision.</u></h1>
 
     <p style="max-width:720px;font-size:16px;line-height:1.6;margin-bottom:48px;opacity:.8">
-        Каждая запись — реальный объект, спроектированный котом-архитектором определённой школы.
-        Имена даны не по астрономической номенклатуре, а по характеру. Так удобнее звать на ужин.
+        Every entry is a real object designed by a cat-architect of a particular school.
+        Names follow personality, not astronomical convention. It is easier to call them in for dinner that way.
     </p>
 
     <div class="catalog">
@@ -479,9 +479,9 @@ footer .blink{display:inline-block;width:10px;height:10px;background:var(--hot);
                 <span class="bh-id"><?= htmlspecialchars($bh['id']) ?></span>
                 <h2 class="bh-name"><?= htmlspecialchars($bh['name']) ?></h2>
                 <dl class="bh-meta">
-                    <dt>масса</dt><dd><?= htmlspecialchars($bh['mass']) ?></dd>
-                    <dt>настроение</dt><dd><?= htmlspecialchars($bh['mood']) ?></dd>
-                    <dt>архитектор</dt><dd><?= htmlspecialchars($bh['designer']) ?></dd>
+                    <dt>mass</dt><dd><?= htmlspecialchars($bh['mass']) ?></dd>
+                    <dt>mood</dt><dd><?= htmlspecialchars($bh['mood']) ?></dd>
+                    <dt>architect</dt><dd><?= htmlspecialchars($bh['designer']) ?></dd>
                 </dl>
                 <p class="bh-note"><?= htmlspecialchars($bh['note']) ?></p>
             </article>
@@ -489,88 +489,88 @@ footer .blink{display:inline-block;width:10px;height:10px;background:var(--hot);
     </div>
 
 <?php elseif ($page === 'oracle'): ?>
-    <p class="crumb">Раздел 03 · Ежедневное пророчество</p>
-    <h1 class="huge">Сегодняшняя <em>правда</em><br>от <u>космического кота.</u></h1>
+    <p class="crumb">Section 03 · Daily prophecy</p>
+    <h1 class="huge">Today's <em>truth</em><br>from <u>the cosmic cat.</u></h1>
 
     <section class="oracle-stage">
         <div class="oracle-eye"></div>
-        <div class="oracle-label">Оракул говорит</div>
-        <p class="oracle-text">«<?= htmlspecialchars($prophecyToday) ?>»</p>
-        <div class="oracle-foot">— получено <?= date('d.m.Y') ?> · подпись неразборчива</div>
+        <div class="oracle-label">The Oracle speaks</div>
+        <p class="oracle-text">"<?= htmlspecialchars($prophecyToday) ?>"</p>
+        <div class="oracle-foot">— received <?= date('d.m.Y') ?> · signature illegible</div>
     </section>
 
     <div class="oracle-grid">
         <div class="oracle-tile">
-            <b>Условия</b>
-            Пророчество обновляется один раз в сутки. Не несёт ответственности
-            за сбывшееся. Особенно если оно сбылось вовремя.
+            <b>Terms</b>
+            The prophecy refreshes once per day. We accept no liability for
+            anything that comes true. Especially if it comes true on time.
         </div>
         <div class="oracle-tile">
-            <b>Источник</b>
-            Древний кот, известный как «Тот, Кто Знает Где Лежит Корм».
-            Возраст — приблизительно 14 миллиардов лет, считая хвост.
+            <b>Source</b>
+            An ancient cat known as "The One Who Knows Where The Food Is Kept".
+            Approximate age: 14 billion years, tail included.
         </div>
         <div class="oracle-tile">
-            <b>Метод</b>
-            Хвост подпрыгивает, фотоны кодируют, переводчик мяукает.
-            Точность ±∞%. Это нормально.
+            <b>Method</b>
+            The tail twitches, photons encode, the translator meows.
+            Accuracy ±∞%. This is fine.
         </div>
     </div>
 
 <?php elseif ($page === 'museum'): ?>
-    <p class="crumb">Раздел 04 · Архив-Музей лиц</p>
-    <h1 class="huge">Архитекторы, <em>занесённые</em><br>в <u>вечный реестр.</u></h1>
+    <p class="crumb">Section 04 · Archive-Museum of faces</p>
+    <h1 class="huge">Architects <em>entered</em><br>into the <u>eternal registry.</u></h1>
 
     <p style="max-width:720px;font-size:16px;line-height:1.6;margin-bottom:48px;opacity:.8">
-        Эти портреты были получены через щель в горизонте событий. Каждый кот
-        отказался позировать, поэтому изображения сделаны строго в ASCII —
-        единственном формате, на который у Бюро хватает власти.
+        These portraits were obtained through a slit in the event horizon. Every
+        cat refused to pose, so the images are rendered strictly in ASCII — the
+        only format over which the Bureau holds any authority.
     </p>
 
     <div class="museum-grid">
         <div class="museum-card">
-            <h4>Архитектор Пушок III</h4>
+            <h4>Architect Fluffy III</h4>
             <pre><?= htmlspecialchars($asciiCats[0]) ?></pre>
-            <p>Спроектировал 47 чёрных дыр. На пенсии. По понедельникам — мяукает.</p>
+            <p>Designed 47 black holes. Retired. Meows on Mondays.</p>
         </div>
         <div class="museum-card">
-            <h4>Архитектор Барсик Великий</h4>
+            <h4>Architect Barsik the Great</h4>
             <pre><?= htmlspecialchars($asciiCats[1]) ?></pre>
-            <p>Известен тем, что лично перевернул горизонт событий. Никто не помнит зачем.</p>
+            <p>Famous for personally flipping the event horizon. Nobody remembers why.</p>
         </div>
         <div class="museum-card">
-            <h4>Архитектор Мурзик-Беспредел</h4>
+            <h4>Architect Murzik the Lawless</h4>
             <pre><?= htmlspecialchars($asciiCats[2]) ?></pre>
-            <p>Не подписывает работы. Считает подпись — слабостью. Ест. Спит. Творит.</p>
+            <p>Refuses to sign his work. Considers signatures a weakness. Eats. Sleeps. Creates.</p>
         </div>
         <div class="museum-card">
-            <h4>Архитектор Ватрушка</h4>
+            <h4>Architect Cheesecake</h4>
             <pre><?= htmlspecialchars($asciiCats[3]) ?></pre>
-            <p>Теоретик. Спроектировал чёрную дыру, которая, возможно, не существует.</p>
+            <p>Theorist. Designed a black hole that may not actually exist.</p>
         </div>
         <div class="museum-card">
-            <h4>Архитектор Серёжа</h4>
+            <h4>Architect Steven</h4>
             <pre><?= htmlspecialchars($asciiCats[4]) ?></pre>
-            <p>Живёт в коробке. Коробка теперь — официальное подразделение Бюро.</p>
+            <p>Lives in a box. The box is now an official Bureau department.</p>
         </div>
         <div class="museum-card">
-            <h4>Анонимный архитектор</h4>
+            <h4>Anonymous Architect</h4>
             <pre>    ?? ??
    /     \
   | (•_•) |
    \  ~  /
     `---'</pre>
-            <p>Никто не видел. Все слышали. Подпись: «—».</p>
+            <p>Nobody saw. Everybody heard. Signed: "—".</p>
         </div>
     </div>
 
 <?php elseif ($page === 'logs'): ?>
-    <p class="crumb">Раздел 05 · Бортовой журнал · UNCLASSIFIED-ish</p>
-    <h1 class="huge">Журнал <em>происшествий</em><br><u>последних эпох.</u></h1>
+    <p class="crumb">Section 05 · Logbook · UNCLASSIFIED-ish</p>
+    <h1 class="huge">A logbook of <em>incidents</em><br>from <u>the most recent epochs.</u></h1>
 
     <p style="max-width:720px;font-size:16px;line-height:1.6;margin-bottom:48px;opacity:.8">
-        Записи ведутся хвостами котов в реальном времени. Орфография, пунктуация
-        и причинно-следственные связи — на ответственности дежурного.
+        Entries are made in real time, by cats, with their tails. Spelling, punctuation
+        and causal logic remain the responsibility of whoever was on duty.
     </p>
 
     <div class="log-list">
@@ -583,9 +583,9 @@ footer .blink{display:inline-block;width:10px;height:10px;background:var(--hot);
     </div>
 
     <div style="margin-top:48px;border:3px dashed var(--ink);padding:24px;font-family:'Courier New',monospace;font-size:13px;line-height:1.6">
-        <b style="color:var(--hot)">// PRIMECHANIE ARHIVISTA:</b><br>
-        Записи с датами после 2526.04.07 могут быть фальсифицированы. А могут и не быть.
-        Архив рекомендует не углубляться. Особенно во вторник.
+        <b style="color:var(--hot)">// ARCHIVIST'S NOTE:</b><br>
+        Entries dated after 2526.04.07 may have been falsified. Or they may not have been.
+        The Archive recommends not digging deeper. Especially on Tuesdays.
     </div>
 <?php endif; ?>
 
@@ -593,8 +593,8 @@ footer .blink{display:inline-block;width:10px;height:10px;background:var(--hot);
 
 <footer>
     <div class="inner">
-        <div><span class="blink"></span> Бюро бодрствует. Хвосты в боевой готовности.</div>
-        <div>I.B.C.A. · <?= date('Y') ?> · здание не имеет адреса</div>
+        <div><span class="blink"></span> The Bureau is awake. Tails on full alert.</div>
+        <div>I.B.C.A. · <?= date('Y') ?> · this building has no address</div>
         <div>v∞.<?= date('z') ?>.<?= date('Hi') ?></div>
     </div>
 </footer>
