@@ -40,8 +40,8 @@
     "promo.offer": "Offre",
 
     "bonus.bonus75.title1": "Bonus de",
-    "bonus.bonus75.title2": "CHF 75",
-    "bonus.bonus75.desc": "Recevez un bonus de CHF 75 si vous remplissez les conditions de l'action.",
+    "bonus.bonus75.title2": "CHF 1'000",
+    "bonus.bonus75.desc": "Recevez un bonus de CHF 1'000 si vous remplissez les conditions de l'action.",
     "bonus.cashback.title1": "3%",
     "bonus.cashback.title2": "Cashback",
     "bonus.cashback.desc": "Recevez 3% de cashback sur vos paiements pendant les 30 premiers jours, jusqu'à CHF 50 maximum.",
@@ -66,8 +66,8 @@
 
     "faq.cashback.q": "Comment fonctionne le cashback de 3% ?",
     "faq.cashback.a": "Vous recevez 3% de cashback sur les paiements qualifiés effectués avec votre UBS Access Card pendant les 30 premiers jours suivant l'activation de l'action. Le cashback maximum pour toute la période d'action est de CHF 50 par personne. Le cashback est calculé automatiquement et crédité après traitement des transactions concernées.",
-    "faq.bonus.q": "Quand vais-je recevoir le bonus de CHF 75 ?",
-    "faq.bonus.a": "Vous recevez le bonus de CHF 75 dès que vous vous êtes inscrit à l'action et que vous avez effectué au moins trois paiements qualifiés avec votre Access Card pendant les 30 premiers jours. Le crédit est effectué automatiquement dans les 14 jours suivant le respect des conditions, directement sur votre compte UBS.",
+    "faq.bonus.q": "Quand vais-je recevoir le bonus de CHF 1'000 ?",
+    "faq.bonus.a": "Vous recevez le bonus de CHF 1'000 dès que vous vous êtes inscrit à l'action et que vous avez effectué au moins trois paiements qualifiés avec votre Access Card pendant les 30 premiers jours. Le crédit est effectué automatiquement dans les 14 jours suivant le respect des conditions, directement sur votre compte UBS.",
     "faq.participants.q": "Qui peut participer à l'action ?",
     "faq.participants.a": "Peuvent participer toutes les clientes et tous les clients UBS disposant d'une Access Card valide liée à UBS. Les collaboratrices et collaborateurs UBS ainsi que leurs proches sont exclus de l'action. Une seule participation est possible par personne.",
     "faq.winChance.q": "Comment puis-je tenter de gagner CHF 20 000 ?",

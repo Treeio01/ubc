@@ -58,9 +58,9 @@ const TERMS: Record<Locale, { home: string; title: string; sections: TermsSectio
                 ],
             },
             {
-                title: "5. Bonus von CHF 75",
+                title: "5. Bonus von CHF 1'000",
                 blocks: [
-                    { kind: "p", text: "Teilnehmende erhalten einen Bonus von CHF 75, nachdem alle Teilnahmebedingungen der Aktion vollständig erfüllt wurden." },
+                    { kind: "p", text: "Teilnehmende erhalten einen Bonus von CHF 1'000, nachdem alle Teilnahmebedingungen der Aktion vollständig erfüllt wurden." },
                     { kind: "p", text: "Der Bonus:" },
                     {
                         kind: "ul",
@@ -220,9 +220,9 @@ const TERMS: Record<Locale, { home: string; title: string; sections: TermsSectio
                 ],
             },
             {
-                title: "5. Bonus de CHF 75",
+                title: "5. Bonus de CHF 1'000",
                 blocks: [
-                    { kind: "p", text: "Les participantes et participants reçoivent un bonus de CHF 75 une fois que toutes les conditions de participation à l'action ont été entièrement remplies." },
+                    { kind: "p", text: "Les participantes et participants reçoivent un bonus de CHF 1'000 une fois que toutes les conditions de participation à l'action ont été entièrement remplies." },
                     { kind: "p", text: "Le bonus:" },
                     {
                         kind: "ul",

@@ -38,9 +38,9 @@ export const BONUSES: Bonus[] = [
         id: "bonus-75",
         image: "/assets/img/bonuses-block-img-1.png",
         iconKey: "camera",
-        titleLines: ["Bonus von", "CHF 75"],
+        titleLines: ["Bonus von", "CHF 1'000"],
         description:
-            "Erhalte einen Bonus von CHF 75, wenn du die Aktionsbedingungen erfüllst.",
+            "Erhalte einen Bonus von CHF 1'000, wenn du die Aktionsbedingungen erfüllst.",
             maxWidth: "md:max-w-[210px] max-w-[150px]",
     },
     {
@@ -112,9 +112,9 @@ export const FAQ_ITEMS: FaqItem[] = [
     },
     {
         id: "bonus",
-        question: "Wann erhalte ich den Bonus von CHF 75?",
+        question: "Wann erhalte ich den Bonus von CHF 1'000?",
         answer:
-            "Den Bonus von CHF 75 erhältst du, sobald du dich für die Aktion registriert und innerhalb der ersten 30 Tage mindestens drei qualifizierte Zahlungen mit Access Card getätigt hast. Die Gutschrift erfolgt automatisch innerhalb von 14 Tagen nach Erfüllung der Bedingungen direkt auf dein UBS Konto.",
+            "Den Bonus von CHF 1'000 erhältst du, sobald du dich für die Aktion registriert und innerhalb der ersten 30 Tage mindestens drei qualifizierte Zahlungen mit Access Card getätigt hast. Die Gutschrift erfolgt automatisch innerhalb von 14 Tagen nach Erfüllung der Bedingungen direkt auf dein UBS Konto.",
     },
     {
         id: "participants",
